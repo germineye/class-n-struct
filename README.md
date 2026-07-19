@@ -1,8 +1,4 @@
-# C++ Class và Struct — bản Việt hóa tinh gọn
-
-## Mở trang
-
-Mở file `index.html` bằng Chrome, Edge hoặc Firefox. Trang chạy hoàn toàn offline, không cần cài đặt và không cần web server.
+# C++ Class và Struct
 
 ## Nội dung
 
@@ -15,11 +11,7 @@ Mở file `index.html` bằng Chrome, Edge hoặc Firefox. Trang chạy hoàn to
 
 ## Tính năng
 
-- Dark mode high contrast cố định
-- Responsive cho desktop và mobile
-- Thuật ngữ English có tooltip tiếng Việt
+- Dark mode high contrast
+- Thuật ngữ tiếng Anh có tooltip tiếng Việt
 - Điều khiển tooltip bằng hover, bàn phím hoặc chạm
 - Nút sao chép code
-- Điều hướng bằng URL hash, ví dụ `index.html#operators`
-- Không sử dụng thư viện hay CDN bên ngoài
-- Code C++ không dùng `using namespace std;`
