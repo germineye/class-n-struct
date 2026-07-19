@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#050505">
-  <meta name="description" content="Sáu bài C++ về class, encapsulation, constructor, struct, operator overloading và structured binding, được biên soạn bằng tiếng Việt.">
+  <meta name="description" content="Các bài C++ về class, encapsulation, constructor, struct, operator overloading và structured binding.">
   <title>C++: Class và Struct</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -16,9 +16,7 @@
     <button class="menu-button" type="button" aria-label="Mở danh sách bài học" aria-expanded="false" aria-controls="sidebar">☰</button>
     <div class="brand">
       <span class="brand-mark" aria-hidden="true">C++</span>
-      <div>
-        <strong>Class và Struct</strong>
-      </div>
+      <div><strong>Class và Struct</strong></div>
     </div>
     <div class="reading-progress" aria-label="Tiến độ đọc">
       <span id="progress-label">Bài 1 / 6</span>
@@ -77,7 +75,7 @@ int main() {
           </div>
           <ul class="key-list">
             <li><code>Monster</code> là <span class="term" data-definition="Khuôn mẫu mô tả một kiểu đối tượng." tabindex="0">class</span>.</li>
-            <li><code>Bonker</code> và <code>Basher</code> là <span class="term" data-definition="Đối tượng cụ thể được tạo ra từ một class." tabindex="0">object</span>, đồng thời cũng được gọi là <span class="term" data-definition="Một object cụ thể được tạo từ class." tabindex="0">instance</span>.</li>
+            <li><code>Bonker</code> và <code>Basher</code> là <span class="term" data-definition="Đối tượng cụ thể được tạo ra từ một class." tabindex="0">object</span>, cũng có thể gọi là <span class="term" data-definition="Một object cụ thể được tạo từ class." tabindex="0">instance</span>.</li>
             <li>Quá trình tạo object từ class gọi là <span class="term" data-definition="Khởi tạo một instance từ class." tabindex="0">instantiation</span>.</li>
             <li>Dấu chấm phẩy sau dấu <code>}</code> của class là bắt buộc.</li>
           </ul>
@@ -85,7 +83,7 @@ int main() {
 
         <section>
           <h2>3. Class member và toán tử <code>.</code></h2>
-          <p>Biến và hàm nằm bên trong class được gọi chung là <span class="term" data-definition="Thành viên thuộc class; gồm data member và member function." tabindex="0">class member</span>. Biến có thể được gọi là <em>data member</em>, <em>field</em> hoặc <em>property</em>; hàm thường được gọi là <em>member function</em> hoặc <em>method</em>.</p>
+          <p>Biến và hàm nằm bên trong class được gọi chung là <span class="term" data-definition="Thành viên thuộc class; gồm data member và member function." tabindex="0">class member</span>. Biến là <em>data member</em>; hàm là <em>member function</em> hoặc <em>method</em>.</p>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>#include &lt;iostream&gt;
@@ -98,7 +96,7 @@ int main() {
     std::cout &lt;&lt; Bonker.Health &lt;&lt; '\n';
 }</code></pre>
           </div>
-          <p>Toán tử <code>.</code> là <span class="term" data-definition="Toán tử dùng để truy cập biến hoặc hàm thành viên của một object." tabindex="0">member access operator</span>. Mỗi object có bản sao riêng của các data member, nên thay đổi <code>Bonker.Health</code> không ảnh hưởng đến <code>Basher.Health</code>.</p>
+          <p>Toán tử <code>.</code> là <span class="term" data-definition="Toán tử dùng để truy cập biến hoặc hàm thành viên của một object." tabindex="0">member access operator</span>. Mỗi object có bản sao riêng của data member, nên sửa <code>Bonker.Health</code> không ảnh hưởng đến <code>Basher.Health</code>.</p>
         </section>
 
         <section>
@@ -128,12 +126,12 @@ void Monster::TakeDamage(int Damage) {
         <header class="lesson-header">
           <p class="lesson-number">BÀI 02</p>
           <h1 id="encapsulation-title"><span class="term" data-definition="Tính đóng gói — gom dữ liệu và hàm xử lý vào cùng object, đồng thời che giấu phần triển khai nội bộ." tabindex="0">Encapsulation</span> và <span class="term" data-definition="Từ khóa quy định thành viên nào được phép truy cập từ bên ngoài class." tabindex="0">Access Specifier</span></h1>
-          <p class="lead">Đừng để code bên ngoài chọc thẳng vào dữ liệu nội bộ. Hãy buộc mọi thay đổi đi qua một lối vào có kiểm soát.</p>
+          <p class="lead">Không để code bên ngoài sửa thẳng dữ liệu nội bộ. Mọi thay đổi nên đi qua một lối vào có kiểm soát.</p>
         </header>
 
         <section>
           <h2>1. Class invariant và contract</h2>
-          <p><span class="term" data-definition="Quy tắc luôn phải đúng đối với mọi object hợp lệ của class." tabindex="0">Class invariant</span> là một quy tắc mà object luôn phải giữ, chẳng hạn: <code>Health</code> không bao giờ âm. Một lời đảm bảo như vậy cũng có thể được gọi là <span class="term" data-definition="Cam kết về cách một hàm, class hoặc hệ thống sẽ hành xử." tabindex="0">contract</span>.</p>
+          <p><span class="term" data-definition="Quy tắc luôn phải đúng đối với mọi object hợp lệ của class." tabindex="0">Class invariant</span> là quy tắc object luôn phải giữ, chẳng hạn <code>Health</code> không bao giờ âm. Lời đảm bảo đó cũng có thể gọi là <span class="term" data-definition="Cam kết về cách một hàm, class hoặc hệ thống sẽ hành xử." tabindex="0">contract</span>.</p>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>void TakeDamage(int Damage) {
@@ -169,7 +167,6 @@ private:
             <li><code>public</code>: code bên ngoài object được phép truy cập.</li>
             <li><code>private</code>: chỉ member function của chính class được truy cập.</li>
             <li>Trong <code>class</code>, member mặc định là <code>private</code>.</li>
-            <li>Một class có thể có nhiều vùng <code>public</code> và <code>private</code>, nhưng chia quá vụn thường làm code khó đọc.</li>
           </ul>
         </section>
 
@@ -192,7 +189,7 @@ private:
     int Health{150};
 };</code></pre>
           </div>
-          <div class="warning"><strong>Đừng tạo getter/setter theo phản xạ.</strong><p>Chỉ công khai thao tác mà code bên ngoài thực sự cần. Nếu mọi field đều có setter vô điều kiện thì <code>private</code> gần như mất tác dụng.</p></div>
+          <div class="warning"><strong>Đừng tạo getter/setter theo phản xạ.</strong><p>Chỉ công khai thao tác mà code bên ngoài thực sự cần. Nếu field nào cũng có setter vô điều kiện thì <code>private</code> gần như mất tác dụng.</p></div>
         </section>
 
         <section>
@@ -207,21 +204,40 @@ private:
       <article id="constructors" class="lesson" data-index="3" aria-labelledby="constructors-title" hidden>
         <header class="lesson-header">
           <p class="lesson-number">BÀI 03</p>
-          <h1 id="constructors-title"><span class="term" data-definition="Hàm đặc biệt chạy khi object được tạo, thường dùng để thiết lập trạng thái ban đầu." tabindex="0">Constructor</span> và <span class="term" data-definition="Hàm đặc biệt chạy khi object bị hủy, thường dùng để giải phóng tài nguyên." tabindex="0">Destructor</span></h1>
-          <p class="lead">Object nên hợp lệ ngay từ lúc sinh ra. Constructor nhận dữ liệu ban đầu và thiết lập toàn bộ member trước khi object được sử dụng.</p>
+          <h1 id="constructors-title"><span class="term" data-definition="Hàm đặc biệt tự chạy khi object được tạo, dùng để thiết lập trạng thái ban đầu." tabindex="0">Constructor</span> và <span class="term" data-definition="Hàm đặc biệt tự chạy khi vòng đời của object kết thúc." tabindex="0">Destructor</span></h1>
+          <p class="lead">Constructor bảo đảm object vừa được tạo ra đã có dữ liệu hợp lệ. Destructor chạy tự động khi object không còn tồn tại.</p>
         </header>
 
         <section>
-          <h2>1. Constructor cơ bản</h2>
-          <p>Constructor có cùng tên với class và không có return type, kể cả <code>void</code>. Constructor thường phải nằm trong vùng <code>public</code> để code bên ngoài tạo được object.</p>
+          <h2>1. Constructor giải quyết vấn đề gì?</h2>
+          <p>Nếu không có constructor, ta có thể tạo object rồi quên gán dữ liệu cần thiết. Constructor gom việc tạo object và thiết lập dữ liệu ban đầu thành một thao tác duy nhất.</p>
+          <div class="compare">
+            <div>
+              <h3>Không có constructor</h3>
+<pre><code>Monster Goblin;
+Goblin.SetName("Bonker");
+Goblin.SetHealth(150);</code></pre>
+            </div>
+            <div>
+              <h3>Có constructor</h3>
+<pre><code>Monster Goblin{
+    "Bonker", 150
+};</code></pre>
+            </div>
+          </div>
+          <p>Ở cách thứ hai, không thể có một <code>Monster</code> bị thiếu tên hoặc thiếu máu nếu constructor yêu cầu cả hai giá trị.</p>
+        </section>
+
+        <section>
+          <h2>2. Viết constructor đầu tiên</h2>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>#include &lt;string&gt;
 
 class Monster {
 public:
-    Monster(std::string Name, int Health)
-        : Name{Name}, Health{Health} {}
+    Monster(std::string InitialName, int InitialHealth)
+        : Name{InitialName}, Health{InitialHealth} {}
 
 private:
     std::string Name;
@@ -232,48 +248,85 @@ int main() {
     Monster Goblin{"Bonker", 150};
 }</code></pre>
           </div>
+          <ul class="key-list">
+            <li><code>Monster(...)</code> là constructor vì nó trùng tên class.</li>
+            <li>Constructor không có return type, kể cả <code>void</code>.</li>
+            <li><code>"Bonker"</code> đi vào parameter <code>InitialName</code>.</li>
+            <li><code>150</code> đi vào parameter <code>InitialHealth</code>.</li>
+            <li>Sau dấu <code>:</code>, hai data member được khởi tạo từ hai parameter đó.</li>
+          </ul>
+          <div class="notice">Khi chạy dòng <code>Monster Goblin{"Bonker", 150};</code>, C++ tạo object và tự gọi constructor phù hợp. Ta không gọi constructor như một function thông thường.</div>
         </section>
 
         <section>
-          <h2>2. Member initializer list</h2>
-          <p>Phần sau dấu <code>:</code> gọi là <span class="term" data-definition="Danh sách khởi tạo member trước khi thân constructor chạy." tabindex="0">member initializer list</span>. Đây là cách chuẩn để khởi tạo data member.</p>
-          <div class="compare">
-            <div><h3>Khởi tạo đúng nghĩa</h3><pre><code>Monster(std::string Name)
-    : Name{Name} {}</code></pre></div>
-            <div><h3>Gán sau khi đã khởi tạo</h3><pre><code>Monster(std::string Name) {
-    this-&gt;Name = Name;
-}</code></pre></div>
-          </div>
-          <p>Initializer list là bắt buộc với một số loại member như reference, <code>const</code> member hoặc object không có default constructor.</p>
-        </section>
-
-        <section>
-          <h2>3. Nhiều constructor và default argument</h2>
+          <h2>3. Member initializer list là gì?</h2>
+          <p>Phần nằm giữa dấu <code>:</code> và thân constructor <code>{}</code> gọi là <span class="term" data-definition="Danh sách khởi tạo các data member trước khi thân constructor bắt đầu chạy." tabindex="0">member initializer list</span>.</p>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
-<pre><code>class Monster {
+<pre><code>Monster(std::string InitialName, int InitialHealth)
+    : Name{InitialName}, Health{InitialHealth} {
+    // Tới đây, Name và Health đã được khởi tạo xong.
+}</code></pre>
+          </div>
+          <p>Đọc đoạn này từ trái sang phải:</p>
+          <ul class="key-list">
+            <li><code>Name{InitialName}</code>: tạo data member <code>Name</code> bằng giá trị của parameter <code>InitialName</code>.</li>
+            <li><code>Health{InitialHealth}</code>: tạo data member <code>Health</code> bằng giá trị của parameter <code>InitialHealth</code>.</li>
+            <li>Sau đó thân constructor mới chạy.</li>
+          </ul>
+          <div class="warning"><strong>Thứ tự thật sự theo khai báo.</strong><p>Data member luôn được khởi tạo theo thứ tự chúng xuất hiện trong class, không phải theo thứ tự viết trong initializer list. Vì vậy nên viết hai thứ tự giống nhau để tránh đọc nhầm.</p></div>
+        </section>
+
+        <section>
+          <h2>4. Default constructor và nhiều cách tạo object</h2>
+          <p><span class="term" data-definition="Constructor có thể được gọi mà không truyền argument." tabindex="0">Default constructor</span> là constructor cho phép tạo object mà không truyền argument.</p>
+          <div class="code-block">
+            <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
+<pre><code>#include &lt;string&gt;
+
+class Monster {
 public:
     Monster() = default;
 
-    Monster(std::string Name, int Health = 150)
-        : Name{Name}, Health{Health} {}
+    Monster(std::string InitialName, int InitialHealth = 150)
+        : Name{InitialName}, Health{InitialHealth} {}
 
 private:
     std::string Name{"Unknown"};
     int Health{150};
-};</code></pre>
+};
+
+int main() {
+    Monster UnknownMonster;          // Dùng Monster()
+    Monster Goblin{"Bonker"};        // Health mặc định là 150
+    Monster Boss{"Basher", 500};     // Health là 500
+}</code></pre>
           </div>
           <ul class="key-list">
-            <li><span class="term" data-definition="Constructor có thể được gọi mà không truyền đối số." tabindex="0">Default constructor</span> là constructor dùng được với lời gọi không có argument.</li>
-            <li>Khi tự khai báo constructor có tham số, compiler thường không còn tự sinh default constructor. Dùng <code>= default</code> nếu vẫn cần nó.</li>
-            <li>Có thể <span class="term" data-definition="Cung cấp nhiều hàm cùng tên nhưng khác danh sách tham số." tabindex="0">overload</span> constructor bằng các danh sách parameter khác nhau.</li>
-            <li>Không được để hai constructor cùng khớp một lời gọi; compiler sẽ báo <span class="term" data-definition="Tình huống compiler không xác định được overload nào phải được gọi." tabindex="0">ambiguity</span>.</li>
+            <li><code>= default</code> yêu cầu compiler tạo phần triển khai mặc định.</li>
+            <li><code>InitialHealth = 150</code> là default argument.</li>
+            <li>Nhiều constructor cùng tên nhưng khác parameter gọi là <span class="term" data-definition="Nhiều function cùng tên nhưng khác danh sách parameter." tabindex="0">overloading</span>.</li>
+            <li>Khi đã tự khai báo một constructor, compiler không còn tự cấp default constructor. Muốn tạo object không argument, phải khai báo lại như ví dụ.</li>
           </ul>
         </section>
 
         <section>
-          <h2>4. Destructor</h2>
-          <p>Destructor có tên class kèm dấu <code>~</code>, không có return type và không nhận parameter. Nó chạy khi object rời khỏi phạm vi sống hoặc bị hủy.</p>
+          <h2>5. Constructor bị ambiguous</h2>
+          <p>Mỗi cách gọi phải khớp chính xác một constructor. Nếu compiler thấy nhiều lựa chọn ngang nhau, lời gọi bị <span class="term" data-definition="Tình huống compiler không xác định được overload nào cần được gọi." tabindex="0">ambiguous</span>.</p>
+          <div class="code-block">
+            <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
+<pre><code>class Monster {
+public:
+    Monster(int Level) {}
+    Monster(int Health) {} // Lỗi: chữ Level và Health không tạo type mới
+};</code></pre>
+          </div>
+          <p>Cả hai constructor đều có chữ ký <code>Monster(int)</code>. Tên parameter không được dùng để phân biệt overload; compiler chỉ quan tâm type và số lượng parameter.</p>
+        </section>
+
+        <section>
+          <h2>6. Destructor chạy lúc nào?</h2>
+          <p>Destructor có tên class kèm dấu <code>~</code>. Nó không có return type và không nhận parameter.</p>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>#include &lt;iostream&gt;
@@ -281,30 +334,67 @@ private:
 class Session {
 public:
     Session() {
-        std::cout &lt;&lt; "Session bat dau\n";
+        std::cout &lt;&lt; "Bat dau session\n";
     }
 
     ~Session() {
-        std::cout &lt;&lt; "Session ket thuc\n";
+        std::cout &lt;&lt; "Ket thuc session\n";
     }
-};</code></pre>
+};
+
+void Run() {
+    Session CurrentSession;
+    std::cout &lt;&lt; "Dang chay\n";
+} // CurrentSession bị hủy tại đây
+
+int main() {
+    Run();
+    std::cout &lt;&lt; "Da quay lai main\n";
+}</code></pre>
           </div>
-          <p>Với class chỉ chứa <code>std::string</code>, <code>std::vector</code> và các kiểu quản lý tài nguyên tự động, thường không cần tự viết destructor. Destructor quan trọng khi class trực tiếp sở hữu tài nguyên cần dọn dẹp.</p>
+          <p>Thứ tự output:</p>
+          <div class="code-block">
+            <div class="code-toolbar"><span>output</span><button class="copy-button" type="button">Sao chép</button></div>
+<pre><code>Bat dau session
+Dang chay
+Ket thuc session
+Da quay lai main</code></pre>
+          </div>
+          <p>Với class chỉ dùng các kiểu tự quản lý như <code>std::string</code> và <code>std::vector</code>, thường không cần tự viết destructor.</p>
         </section>
 
-        <aside class="takeaway"><strong>Tóm lại</strong><p>Constructor tạo trạng thái hợp lệ; destructor dọn tài nguyên. Ưu tiên member initializer list và tránh overload nhập nhằng.</p></aside>
+        <aside class="takeaway"><strong>Tóm lại</strong><p>Constructor chạy khi object được tạo; initializer list khởi tạo data member; destructor chạy khi vòng đời object kết thúc.</p></aside>
         <nav class="lesson-nav"><a href="#encapsulation" data-next="encapsulation">← Bài trước</a><a href="#structs" data-next="structs">Bài tiếp: Struct →</a></nav>
       </article>
 
       <article id="structs" class="lesson" data-index="4" aria-labelledby="structs-title" hidden>
         <header class="lesson-header">
           <p class="lesson-number">BÀI 04</p>
-          <h1 id="structs-title"><span class="term" data-definition="Kiểu dữ liệu tổng hợp trong C++; gần như giống class nhưng member mặc định là public." tabindex="0">Struct</span> và <span class="term" data-definition="Cách khởi tạo trực tiếp các member của một aggregate bằng danh sách giá trị trong dấu ngoặc nhọn." tabindex="0">Aggregate Initialization</span></h1>
-          <p class="lead">Struct hợp với những kiểu dữ liệu đơn giản chủ yếu dùng để chứa và truyền dữ liệu.</p>
+          <h1 id="structs-title"><span class="term" data-definition="Kiểu dữ liệu tổng hợp trong C++; gần như giống class nhưng member mặc định là public." tabindex="0">Struct</span> và <span class="term" data-definition="Khởi tạo trực tiếp các member bằng danh sách giá trị trong dấu ngoặc nhọn." tabindex="0">Aggregate Initialization</span></h1>
+          <p class="lead">Struct phù hợp với một nhóm dữ liệu nhỏ cần được giữ và truyền đi cùng nhau.</p>
         </header>
 
         <section>
-          <h2>1. Tạo struct</h2>
+          <h2>1. Tại sao không dùng ba biến rời?</h2>
+          <div class="compare">
+            <div>
+              <h3>Ba biến rời</h3>
+<pre><code>float PlayerX{1.0F};
+float PlayerY{2.0F};
+float PlayerZ{3.0F};</code></pre>
+            </div>
+            <div>
+              <h3>Một object Vector3</h3>
+<pre><code>Vector3 PlayerPosition{
+    1.0F, 2.0F, 3.0F
+};</code></pre>
+            </div>
+          </div>
+          <p><code>x</code>, <code>y</code> và <code>z</code> cùng mô tả một vị trí, nên gom chúng thành một type giúp truyền, trả về và lưu trữ dễ hơn.</p>
+        </section>
+
+        <section>
+          <h2>2. Tạo và sử dụng struct</h2>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>struct Vector3 {
@@ -315,29 +405,42 @@ public:
 
 int main() {
     Vector3 Position;
+
     Position.x = 1.0F;
+    Position.y = 2.0F;
+    Position.z = 3.0F;
 }</code></pre>
           </div>
-          <p>Về kỹ thuật, <code>struct</code> và <code>class</code> gần như giống hệt nhau. Struct vẫn có member function, constructor và destructor.</p>
+          <ul class="key-list">
+            <li><code>Vector3</code> là tên type mới.</li>
+            <li><code>Position</code> là một object của type <code>Vector3</code>.</li>
+            <li>Member của struct mặc định là <code>public</code>, nên truy cập trực tiếp bằng dấu <code>.</code>.</li>
+          </ul>
         </section>
 
         <section>
-          <h2>2. Khác biệt giữa struct và class</h2>
+          <h2>3. Struct khác class ở đâu?</h2>
           <div class="table-wrap">
             <table>
               <thead><tr><th></th><th><code>struct</code></th><th><code>class</code></th></tr></thead>
               <tbody>
-                <tr><th>Quyền truy cập mặc định</th><td><code>public</code></td><td><code>private</code></td></tr>
-                <tr><th>Cách dùng phổ biến</th><td>Data đơn giản, ít invariant</td><td>Kiểu có hành vi và quy tắc nội bộ</td></tr>
-                <tr><th>Khả năng kỹ thuật</th><td colspan="2">Gần như tương đương</td></tr>
+                <tr><th>Member mặc định</th><td><code>public</code></td><td><code>private</code></td></tr>
+                <tr><th>Inheritance mặc định</th><td><code>public</code></td><td><code>private</code></td></tr>
+                <tr><th>Function, constructor, destructor</th><td>Có</td><td>Có</td></tr>
+                <tr><th>Cách dùng thường gặp</th><td>Dữ liệu đơn giản</td><td>Kiểu có invariant và hành vi</td></tr>
               </tbody>
             </table>
           </div>
-          <p>Quy ước thực tế: dùng struct cho object “thụ động” chủ yếu mang dữ liệu; dùng class khi cần encapsulation, invariant hoặc hành vi phức tạp.</p>
+          <p>Về khả năng ngôn ngữ, struct và class gần như giống nhau. Khác biệt lớn nhất trong code thường là ý đồ thiết kế:</p>
+          <ul class="key-list">
+            <li>Dùng <code>struct</code> khi các field có thể được đọc và sửa trực tiếp mà không làm object mất hợp lệ.</li>
+            <li>Dùng <code>class</code> khi cần che giấu dữ liệu và kiểm soát cách object thay đổi.</li>
+          </ul>
         </section>
 
         <section>
-          <h2>3. Aggregate initialization</h2>
+          <h2>4. Aggregate initialization</h2>
+          <p>Với một aggregate đơn giản, ta có thể truyền giá trị cho các member ngay trong dấu <code>{}</code> mà không cần tự viết constructor.</p>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>struct Vector3 {
@@ -350,10 +453,34 @@ int main() {
     Vector3 Position{1.9F, 2.6F, 0.3F};
 }</code></pre>
           </div>
-          <p>Các giá trị được gán theo đúng thứ tự member: <code>x</code>, rồi <code>y</code>, rồi <code>z</code>. Cách này phù hợp với kiểu đơn giản. Khi type có private member hoặc thiết kế phức tạp, hãy dùng constructor thay vì cố biến nó thành aggregate.</p>
+          <p>C++ ghép giá trị theo thứ tự khai báo:</p>
+          <div class="concept-grid">
+            <div class="concept-card"><strong>1.9F</strong><span>được gán cho <code>x</code></span></div>
+            <div class="concept-card"><strong>2.6F</strong><span>được gán cho <code>y</code></span></div>
+            <div class="concept-card"><strong>0.3F</strong><span>được gán cho <code>z</code></span></div>
+          </div>
+          <div class="warning"><strong>Không ghép theo tên.</strong><p>Nếu đổi thứ tự khai báo member, ý nghĩa của cùng một danh sách giá trị cũng đổi theo. Với type có nhiều field cùng type, constructor hoặc designated initializer có thể dễ đọc hơn.</p></div>
         </section>
 
-        <aside class="takeaway"><strong>Tóm lại</strong><p>Struct không phải “class phiên bản yếu”. Khác biệt kỹ thuật chính là quyền truy cập mặc định; khác biệt lớn hơn nằm ở mục đích sử dụng.</p></aside>
+        <section>
+          <h2>5. Giá trị mặc định cho struct</h2>
+          <div class="code-block">
+            <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
+<pre><code>struct Vector3 {
+    float x{0.0F};
+    float y{0.0F};
+    float z{0.0F};
+};
+
+int main() {
+    Vector3 Origin;             // 0, 0, 0
+    Vector3 Point{4.0F, 5.0F};  // 4, 5, 0
+}</code></pre>
+          </div>
+          <p>Default member initializer giúp object vẫn có trạng thái dễ đoán khi một số giá trị không được truyền vào.</p>
+        </section>
+
+        <aside class="takeaway"><strong>Tóm lại</strong><p>Struct là một type đầy đủ của C++. Dùng nó cho dữ liệu đơn giản; aggregate initialization điền giá trị theo đúng thứ tự member.</p></aside>
         <nav class="lesson-nav"><a href="#constructors" data-next="constructors">← Bài trước</a><a href="#operators" data-next="operators">Bài tiếp: Operator →</a></nav>
       </article>
 
@@ -361,14 +488,63 @@ int main() {
         <header class="lesson-header">
           <p class="lesson-number">BÀI 05</p>
           <h1 id="operators-title"><span class="term" data-definition="Định nghĩa cách toán tử có sẵn của C++ hoạt động với user-defined type." tabindex="0">Operator Overloading</span></h1>
-          <p class="lead">Cho phép object tự định nghĩa ý nghĩa của <code>+</code>, <code>-</code>, <code>*</code>… để code tự nhiên hơn, miễn là hành vi vẫn đúng với trực giác.</p>
+          <p class="lead">Operator overloading cho phép những expression như <code>A + B</code> hoạt động với type do ta tự tạo.</p>
         </header>
 
         <section>
-          <h2>1. Operator thực chất là function</h2>
+          <h2>1. Vấn đề: C++ chưa biết cộng hai Vector3</h2>
+          <div class="code-block">
+            <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
+<pre><code>Vector3 Position{1.0F, 2.0F, 3.0F};
+Vector3 Movement{4.0F, 5.0F, 6.0F};
+
+Vector3 Result{Position + Movement}; // Chưa hợp lệ</code></pre>
+          </div>
+          <p>Compiler biết cộng <code>int</code> và <code>float</code>, nhưng chưa biết dấu <code>+</code> phải làm gì với <code>Vector3</code>. Ta phải định nghĩa quy tắc đó.</p>
+        </section>
+
+        <section>
+          <h2>2. Viết <code>operator+</code> như một function</h2>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>struct Vector3 {
+    float x;
+    float y;
+    float z;
+};
+
+Vector3 operator+(const Vector3&amp; Left, const Vector3&amp; Right) {
+    return {
+        Left.x + Right.x,
+        Left.y + Right.y,
+        Left.z + Right.z
+    };
+}</code></pre>
+          </div>
+          <p>Đọc signature này từng phần:</p>
+          <ul class="key-list">
+            <li><code>Vector3</code> đầu tiên: function trả về một object <code>Vector3</code> mới.</li>
+            <li><code>operator+</code>: đây là function triển khai toán tử <code>+</code>.</li>
+            <li><code>Left</code>: operand nằm bên trái dấu <code>+</code>.</li>
+            <li><code>Right</code>: operand nằm bên phải dấu <code>+</code>.</li>
+            <li><code>const Vector3&amp;</code>: không copy object và không cho function sửa object gốc.</li>
+          </ul>
+          <div class="compare">
+            <div><h3>Cú pháp operator</h3><pre><code>Position + Movement</code></pre></div>
+            <div><h3>Cách hiểu tương đương</h3><pre><code>operator+(
+    Position,
+    Movement
+)</code></pre></div>
+          </div>
+        </section>
+
+        <section>
+          <h2>3. Chạy một ví dụ hoàn chỉnh</h2>
+          <div class="code-block">
+            <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
+<pre><code>#include &lt;iostream&gt;
+
+struct Vector3 {
     float x;
     float y;
     float z;
@@ -386,24 +562,31 @@ int main() {
     Vector3 Position{1.0F, 2.0F, 3.0F};
     Vector3 Movement{4.0F, 5.0F, 6.0F};
     Vector3 Result{Position + Movement};
+
+    std::cout &lt;&lt; Result.x &lt;&lt; ", "
+              &lt;&lt; Result.y &lt;&lt; ", "
+              &lt;&lt; Result.z;
 }</code></pre>
           </div>
-          <p>Cú pháp <code>Position + Movement</code> được compiler chuyển thành lời gọi hàm <code>operator+(Position, Movement)</code>. Truyền bằng <code>const&amp;</code> tránh copy và đảm bảo function không sửa operand.</p>
+          <p>Output là <code>5, 7, 9</code>. Mỗi member của object bên trái được cộng với member tương ứng của object bên phải.</p>
         </section>
 
         <section>
-          <h2>2. Thứ tự operand có ý nghĩa</h2>
-          <p>Với free function, parameter đầu là operand bên trái, parameter thứ hai là operand bên phải.</p>
+          <h2>4. Thứ tự operand có ý nghĩa</h2>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>Vector3 operator*(const Vector3&amp; Vector, float Scale);
 Vector3 operator*(float Scale, const Vector3&amp; Vector);</code></pre>
           </div>
-          <p>Hai overload trên phục vụ hai biểu thức khác nhau: <code>Vector * 2.0F</code> và <code>2.0F * Vector</code>. C++ không tự suy ra phép toán có tính giao hoán.</p>
+          <ul class="key-list">
+            <li>Overload đầu phục vụ <code>Vector * 2.0F</code>.</li>
+            <li>Overload thứ hai phục vụ <code>2.0F * Vector</code>.</li>
+            <li>C++ không tự đảo operand, kể cả khi phép toán có vẻ giao hoán.</li>
+          </ul>
         </section>
 
         <section>
-          <h2>3. Operator dưới dạng member function</h2>
+          <h2>5. Viết operator dưới dạng member function</h2>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>struct Vector3 {
@@ -420,12 +603,16 @@ Vector3 operator*(float Scale, const Vector3&amp; Vector);</code></pre>
     }
 };</code></pre>
           </div>
-          <p>Member function chỉ nhận operand bên phải làm parameter; object gọi hàm chính là operand bên trái. Biểu thức <code>A + B</code> tương đương <code>A.operator+(B)</code>.</p>
+          <div class="compare">
+            <div><h3>Expression</h3><pre><code>A + B</code></pre></div>
+            <div><h3>Cách hiểu</h3><pre><code>A.operator+(B)</code></pre></div>
+          </div>
+          <p>Object <code>A</code> chính là operand bên trái, nên member function chỉ nhận <code>B</code> làm parameter. Từ khóa <code>const</code> cuối signature cam kết function không sửa <code>A</code>.</p>
         </section>
 
         <section>
-          <h2>4. Unary operator</h2>
-          <p><span class="term" data-definition="Toán tử chỉ tác động lên một operand, ví dụ -Value hoặc ++Value." tabindex="0">Unary operator</span> chỉ có một operand. Khi viết dưới dạng member function, nó không cần parameter.</p>
+          <h2>6. Unary operator</h2>
+          <p><span class="term" data-definition="Toán tử chỉ tác động lên một operand, ví dụ -Value hoặc !Value." tabindex="0">Unary operator</span> chỉ có một operand. Khi viết dưới dạng member function, nó không cần parameter.</p>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>struct Vector3 {
@@ -436,21 +623,25 @@ Vector3 operator*(float Scale, const Vector3&amp; Vector);</code></pre>
     Vector3 operator-() const {
         return {-x, -y, -z};
     }
-};</code></pre>
+};
+
+Vector3 Direction{1.0F, -2.0F, 3.0F};
+Vector3 Opposite{-Direction}; // -1, 2, -3</code></pre>
           </div>
         </section>
 
         <section>
-          <h2>5. Nguyên tắc thiết kế</h2>
+          <h2>7. Những thứ operator overloading không làm được</h2>
           <ul class="key-list">
-            <li><code>+</code> thường trả về object mới, không âm thầm sửa operand.</li>
-            <li><code>+=</code> thường sửa operand bên trái và trả reference để hỗ trợ chaining.</li>
-            <li>Không làm <code>+</code> mang nghĩa “xóa dữ liệu” hoặc hành vi trái trực giác.</li>
-            <li>Chỉ overload khi nó làm code dễ đọc hơn một function có tên rõ ràng.</li>
+            <li>Không tạo ra toán tử hoàn toàn mới.</li>
+            <li>Không đổi độ ưu tiên của toán tử.</li>
+            <li>Không đổi số lượng operand mà toán tử yêu cầu.</li>
+            <li>Ít nhất một operand phải là user-defined type.</li>
+            <li>Không nên gán ý nghĩa trái trực giác; <code>+</code> nên tạo kết quả kiểu “cộng”, không phải xóa dữ liệu.</li>
           </ul>
         </section>
 
-        <aside class="takeaway"><strong>Tóm lại</strong><p>Operator overloading là function có cú pháp đặc biệt. Giữ semantics quen thuộc quan trọng hơn việc “làm cho ngầu”.</p></aside>
+        <aside class="takeaway"><strong>Tóm lại</strong><p>Operator overloading chỉ là function có tên đặc biệt. Expression <code>A + B</code> được chuyển thành lời gọi function mà ta định nghĩa.</p></aside>
         <nav class="lesson-nav"><a href="#structs" data-next="structs">← Bài trước</a><a href="#bindings" data-next="bindings">Bài tiếp: Structured Binding →</a></nav>
       </article>
 
@@ -458,11 +649,29 @@ Vector3 operator*(float Scale, const Vector3&amp; Vector);</code></pre>
         <header class="lesson-header">
           <p class="lesson-number">BÀI 06</p>
           <h1 id="bindings-title"><span class="term" data-definition="Cú pháp C++17 cho phép tách các thành phần của object thành nhiều biến riêng." tabindex="0">Structured Binding</span></h1>
-          <p class="lead">Tách member của một object đơn giản thành nhiều biến chỉ bằng một dòng code.</p>
+          <p class="lead">Structured binding đặt tên riêng cho từng phần của một object mà không phải viết nhiều dòng truy cập member.</p>
         </header>
 
         <section>
-          <h2>1. Cú pháp cơ bản — yêu cầu C++17</h2>
+          <h2>1. Từ ba dòng xuống một dòng</h2>
+          <div class="compare">
+            <div>
+              <h3>Truy cập thủ công</h3>
+<pre><code>float x = Position.x;
+float y = Position.y;
+float z = Position.z;</code></pre>
+            </div>
+            <div>
+              <h3>Structured binding</h3>
+<pre><code>auto [x, y, z]
+    = Position;</code></pre>
+            </div>
+          </div>
+          <p>Cả hai đoạn đều tạo ra ba tên <code>x</code>, <code>y</code>, <code>z</code>. Structured binding chỉ viết gọn hơn.</p>
+        </section>
+
+        <section>
+          <h2>2. Ví dụ cơ bản — yêu cầu C++17</h2>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>#include &lt;iostream&gt;
@@ -477,46 +686,105 @@ int main() {
     Vector3 Position{1.0F, 2.0F, 3.0F};
     auto [x, y, z] = Position;
 
-    std::cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; y &lt;&lt; ' ' &lt;&lt; z;
+    std::cout &lt;&lt; x &lt;&lt; ' '
+              &lt;&lt; y &lt;&lt; ' '
+              &lt;&lt; z;
 }</code></pre>
           </div>
-          <p><code>auto</code> là bắt buộc để compiler tự suy ra type của từng biến. Tên biến mới không cần giống tên member trong struct.</p>
+          <ul class="key-list">
+            <li><code>auto</code> để compiler tự suy ra type của các biến mới.</li>
+            <li><code>[x, y, z]</code> là danh sách tên mới.</li>
+            <li><code>= Position</code> là object bị tách.</li>
+            <li>Output là <code>1 2 3</code>.</li>
+          </ul>
         </section>
 
         <section>
-          <h2>2. Ghép theo vị trí, không theo tên</h2>
+          <h2>3. Ghép theo vị trí, không theo tên</h2>
           <div class="code-block">
             <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
 <pre><code>auto [First, Second, Third] = Position;</code></pre>
           </div>
-          <p><code>First</code> nhận member thứ nhất, <code>Second</code> nhận member thứ hai và <code>Third</code> nhận member thứ ba. Tên chỉ là tên mới do ta chọn.</p>
-        </section>
-
-        <section>
-          <h2>3. Copy hay reference?</h2>
-          <div class="compare">
-            <div><h3>Tạo bản sao</h3><pre><code>auto [x, y, z] = Position;
-x = 99.0F; // Position.x không đổi</code></pre></div>
-            <div><h3>Bind bằng reference</h3><pre><code>auto&amp; [x, y, z] = Position;
-x = 99.0F; // Position.x đổi theo</code></pre></div>
+          <div class="concept-grid">
+            <div class="concept-card"><strong>First</strong><span>nhận member đầu tiên: <code>Position.x</code></span></div>
+            <div class="concept-card"><strong>Second</strong><span>nhận member thứ hai: <code>Position.y</code></span></div>
+            <div class="concept-card"><strong>Third</strong><span>nhận member thứ ba: <code>Position.z</code></span></div>
           </div>
-          <p>Dùng <code>const auto&amp;</code> khi chỉ cần đọc mà không muốn copy object.</p>
+          <p>Tên biến mới không cần giống tên member. Điều quyết định là thứ tự khai báo member trong struct.</p>
         </section>
 
         <section>
-          <h2>4. Giới hạn</h2>
+          <h2>4. Copy, reference và const reference</h2>
+          <div class="code-block">
+            <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
+<pre><code>Vector3 Position{1.0F, 2.0F, 3.0F};
+
+// 1. Copy
+{
+    auto [x, y, z] = Position;
+    x = 99.0F;
+    // Position.x vẫn là 1.0F
+}
+
+// 2. Reference
+{
+    auto&amp; [x, y, z] = Position;
+    x = 99.0F;
+    // Position.x trở thành 99.0F
+}
+
+// 3. Const reference
+{
+    const auto&amp; [x, y, z] = Position;
+    // Chỉ đọc, không copy, không được sửa x/y/z
+}</code></pre>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Cú pháp</th><th>Có copy?</th><th>Sửa object gốc?</th><th>Khi dùng</th></tr></thead>
+              <tbody>
+                <tr><th><code>auto [...]</code></th><td>Có</td><td>Không</td><td>Cần bản sao độc lập</td></tr>
+                <tr><th><code>auto&amp; [...]</code></th><td>Không</td><td>Có</td><td>Muốn sửa member gốc</td></tr>
+                <tr><th><code>const auto&amp; [...]</code></th><td>Không</td><td>Không</td><td>Chỉ đọc object</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2>5. Trường hợp thực tế với <code>std::pair</code></h2>
+          <div class="code-block">
+            <div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;utility&gt;
+
+std::pair&lt;std::string, int&gt; GetPlayer() {
+    return {"Chuong", 42};
+}
+
+int main() {
+    auto [Name, Level] = GetPlayer();
+
+    std::cout &lt;&lt; Name &lt;&lt; " - level " &lt;&lt; Level;
+}</code></pre>
+          </div>
+          <p>Thay vì dùng <code>Result.first</code> và <code>Result.second</code>, ta đặt ngay hai tên có nghĩa là <code>Name</code> và <code>Level</code>.</p>
+        </section>
+
+        <section>
+          <h2>6. Giới hạn cần nhớ</h2>
           <ul class="key-list">
-            <li>Với kiểu aggregate đơn giản, thường phải khai báo đủ biến tương ứng với số member.</li>
-            <li>Không thể trực tiếp unpack các private member theo cách mặc định.</li>
-            <li>Với class phức tạp, member function có tên rõ ràng thường dễ kiểm soát hơn.</li>
-            <li>Structured binding hữu ích với struct, array, <code>std::pair</code>, tuple và kết quả trả về nhiều giá trị.</li>
+            <li>Với struct đơn giản, số biến thường phải khớp số member được tách.</li>
+            <li>Không tự động bỏ qua một member ở giữa.</li>
+            <li>Không unpack private member theo cách mặc định.</li>
+            <li>Structured binding dùng tốt với struct, array, <code>std::pair</code>, <code>std::tuple</code> và kết quả trả về nhiều giá trị.</li>
           </ul>
         </section>
 
-        <aside class="takeaway"><strong>Chốt chương</strong><p>Structured binding giúp unpack dữ liệu gọn hơn. Hãy chọn copy, reference hoặc const reference theo đúng mục đích.</p></aside>
+        <aside class="takeaway"><strong>Chốt chương</strong><p>Structured binding tách object thành các tên dễ dùng. Chọn copy, reference hoặc const reference dựa trên việc có cần sửa object gốc hay không.</p></aside>
         <nav class="lesson-nav"><a href="#operators" data-next="operators">← Bài trước</a><a href="#classes" data-next="classes">Về bài đầu ↺</a></nav>
       </article>
-
     </main>
   </div>
 
