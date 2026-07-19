@@ -32,7 +32,7 @@
     const index = validLessons.indexOf(safeId) + 1;
     progressBar.style.width = `${(index / validLessons.length) * 100}%`;
     progressLabel.textContent = `Bài ${index} / ${validLessons.length}`;
-    document.title = `${links[index - 1].textContent.trim()} — C++ Việt hóa`;
+    document.title = `${links[index - 1].textContent.trim()} — C++: Class và Struct`;
     closeMenu();
     hideTooltip();
 
