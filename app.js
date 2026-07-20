@@ -10,6 +10,36 @@
   const tooltip = document.getElementById("tooltip");
   let activeTerm = null;
 
+  function applyContentClarifications() {
+    const destructorExplanation = document.querySelector(
+      "#constructors > section:nth-of-type(6) > p:last-of-type"
+    );
+
+    if (destructorExplanation) {
+      destructorExplanation.innerHTML =
+        "<code>std::string</code> tự giải phóng vùng nhớ dùng để lưu chuỗi khi nó bị hủy. " +
+        "<code>std::vector</code> tự hủy từng phần tử rồi giải phóng vùng nhớ của vector. " +
+        "Khi một object <code>Monster</code> bị hủy, destructor mặc định do compiler tạo sẽ tự gọi destructor của từng data member, " +
+        "nên nếu class chỉ chứa những kiểu tự dọn dẹp như vậy thì không cần viết destructor riêng. " +
+        "Chỉ cần tự viết destructor khi class trực tiếp sở hữu một tài nguyên phải giải phóng thủ công, " +
+        "chẳng hạn vùng nhớ cấp bằng <code>new</code>, file handle hoặc socket.";
+    }
+
+    const aggregateWarning = document.querySelector(
+      "#structs > section:nth-of-type(4) .warning"
+    );
+
+    if (aggregateWarning) {
+      aggregateWarning.innerHTML =
+        "<strong>Giá trị được ghép theo vị trí.</strong>" +
+        "<p>Trong <code>Vector3 Position{1.9F, 2.6F, 0.3F};</code>, compiler lấy " +
+        "<code>1.9F</code> cho member được khai báo đầu tiên, <code>2.6F</code> cho member thứ hai " +
+        "và <code>0.3F</code> cho member thứ ba. Compiler không nhìn tên <code>x</code>, <code>y</code>, <code>z</code> để đoán ý nghĩa. " +
+        "Nếu đổi thứ tự khai báo từ <code>x, y, z</code> thành <code>z, y, x</code>, chính dòng khởi tạo đó sẽ tạo " +
+        "<code>z = 1.9F</code>, <code>y = 2.6F</code>, <code>x = 0.3F</code>.</p>";
+    }
+  }
+
   function currentLessonId() {
     const id = window.location.hash.slice(1);
     return validLessons.includes(id) ? id : validLessons[0];
@@ -128,5 +158,6 @@
   overlay.addEventListener("click", closeMenu);
   window.addEventListener("hashchange", () => showLesson(currentLessonId()));
 
+  applyContentClarifications();
   showLesson(currentLessonId(), false);
 })();
