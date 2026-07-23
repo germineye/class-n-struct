@@ -5,8 +5,43 @@
   const isQuestion = element =>
     element?.tagName === 'P' && element.firstElementChild?.tagName === 'STRONG';
 
-  const isMarker = element =>
-    element?.tagName === 'P' && /^\d+\.$/.test(element.textContent.trim());
+  const isBoundary = element =>
+    !element || isQuestion(element) || element.matches('h2, h3');
+
+  const isEmptyOptionList = element => {
+    if (element?.tagName !== 'OL' || element.children.length !== 1) return false;
+    const item = element.firstElementChild;
+    return item.tagName === 'LI' && !item.textContent.trim();
+  };
+
+  function normalizeCodeOptions(question) {
+    let cursor = question.nextElementSibling;
+    if (!isEmptyOptionList(cursor)) return null;
+
+    const merged = document.createElement('ol');
+    const fragmentsToRemove = [];
+
+    while (isEmptyOptionList(cursor)) {
+      const markerList = cursor;
+      const item = document.createElement('li');
+      fragmentsToRemove.push(markerList);
+      cursor = markerList.nextElementSibling;
+
+      while (!isBoundary(cursor) && !isEmptyOptionList(cursor)) {
+        const next = cursor.nextElementSibling;
+        item.append(cursor);
+        cursor = next;
+      }
+
+      const children = [...item.children];
+      if (children.length >= 2) merged.append(item);
+    }
+
+    if (!merged.children.length) return null;
+    fragmentsToRemove.forEach(node => node.remove());
+    question.after(merged);
+    return merged;
+  }
 
   function makeInteractive(list) {
     if (!list || list.dataset.quizReady === 'true') return;
@@ -18,7 +53,7 @@
       const children = [...item.children];
       if (children.length < 2) return;
 
-      const optionNodes = children.slice(0, 1);
+      const optionNode = children[0];
       const feedbackNodes = children.slice(1);
       const feedbackText = feedbackNodes.map(node => node.textContent).join(' ');
       const isCorrect = /(^|\s)Đúng\./i.test(feedbackText);
@@ -28,8 +63,7 @@
       choice.setAttribute('role', 'button');
       choice.setAttribute('tabindex', '0');
       choice.setAttribute('aria-pressed', 'false');
-
-      optionNodes.forEach(node => choice.append(node));
+      choice.append(optionNode);
 
       const feedback = document.createElement('div');
       feedback.className = 'quiz-feedback';
@@ -43,7 +77,7 @@
 
       const select = () => {
         const parent = item.closest('.quiz-options');
-        parent.querySelectorAll('.quiz-option').forEach(other => {
+        parent.querySelectorAll(':scope > .quiz-option').forEach(other => {
           other.classList.remove('selected', 'correct', 'wrong');
           const otherChoice = other.querySelector(':scope > .quiz-choice');
           const otherFeedback = other.querySelector(':scope > .quiz-feedback');
@@ -70,45 +104,10 @@
       });
     });
 
-    list.classList.add('quiz-options');
-    list.dataset.quizReady = 'true';
-  }
-
-  function buildLooseList(question) {
-    let cursor = question.nextElementSibling;
-    if (!isMarker(cursor)) return null;
-
-    const list = document.createElement('ol');
-
-    while (isMarker(cursor)) {
-      const marker = cursor;
-      cursor = marker.nextElementSibling;
-      const nodes = [];
-
-      while (
-        cursor &&
-        !isMarker(cursor) &&
-        !isQuestion(cursor) &&
-        !cursor.matches('h2, h3')
-      ) {
-        const next = cursor.nextElementSibling;
-        nodes.push(cursor);
-        cursor = next;
-      }
-
-      marker.remove();
-      if (nodes.length < 2) continue;
-
-      const feedbackNode = nodes.pop();
-      const item = document.createElement('li');
-      nodes.forEach(node => item.append(node));
-      item.append(feedbackNode);
-      list.append(item);
+    if (items.some(item => item.classList.contains('quiz-option'))) {
+      list.classList.add('quiz-options');
+      list.dataset.quizReady = 'true';
     }
-
-    if (!list.children.length) return null;
-    question.after(list);
-    return list;
   }
 
   function enhance(root) {
@@ -121,18 +120,19 @@
           continue;
         }
 
-        cursor.classList.add('quiz-question');
-        let options = cursor.nextElementSibling;
+        const question = cursor;
+        question.classList.add('quiz-question');
 
-        if (options?.tagName !== 'OL') {
-          options = buildLooseList(cursor);
+        let options = question.nextElementSibling;
+        if (isEmptyOptionList(options)) {
+          options = normalizeCodeOptions(question);
         }
 
         if (options?.tagName === 'OL') {
           makeInteractive(options);
           cursor = options.nextElementSibling;
         } else {
-          cursor = cursor.nextElementSibling;
+          cursor = question.nextElementSibling;
         }
       }
     });
