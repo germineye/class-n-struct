@@ -1,0 +1,103 @@
+<article aria-labelledby="protected-member-title" class="lesson active" data-index="8" id="protected-member"><header class="lesson-header"><p class="lesson-number">BÀI 08</p><h1 id="protected-member-title"><span class="term" data-definition="Access level cho phép chính class và derived class truy cập." tabindex="0">Protected</span> Member</h1><p class="lead">Tìm hiểu <span class="term" data-definition="Access level cho phép chính class và derived class truy cập." tabindex="0">protected</span> <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> member trong C++, gồm cách và thời điểm nên dùng chúng, đặc biệt trong context của <span class="term" data-definition="Cơ chế cho phép class nhận member từ base class và tạo class hierarchy." tabindex="0">inheritance</span> và <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> design.</p></header>
+<p>Trong bài trước về <span class="term" data-definition="Gom dữ liệu và function liên quan vào object, đồng thời che giấu chi tiết triển khai." tabindex="0">encapsulation</span>, ta đã thấy có thể — và nên — đặt một số variable cùng function của <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> thành <code>private</code>.</p>
+<h3>Nhắc lại: <span class="term" data-definition="Gom dữ liệu và function liên quan vào object, đồng thời che giấu chi tiết triển khai." tabindex="0">Encapsulation</span> và <span class="term" data-definition="Keyword quy định member có thể được truy cập từ đâu." tabindex="0">Access Specifier</span></h3>
+<p><span class="term" data-definition="Gom dữ liệu và function liên quan vào object, đồng thời che giấu chi tiết triển khai." tabindex="0">Encapsulation</span>, <span class="term" data-definition="Điều kiện phải luôn đúng đối với mọi object hợp lệ của class." tabindex="0">class invariant</span> và việc kiểm soát data access bằng specifier <code>public</code> cùng <code>private</code> giúp che giấu function và variable khỏi thế giới bên ngoài. Điều này làm system dễ thiết kế và dễ sử dụng hơn.</p>
+<p>Ví dụ, ta có thể tạo <span class="term" data-definition="Một thực thể cụ thể trong chương trình, có state và behavior." tabindex="0">object</span> cho phép bên ngoài xem health của character nhưng không được thay đổi nó:</p>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div><pre><code class="language-cpp">class Character {
+public:
+    int GetHealth() const {
+        return mHealth;
+    }
+
+private:
+    int mHealth{100};
+};
+</code></pre></div>
+<h2>Access Restriction với <span class="term" data-definition="Cơ chế cho phép class nhận member từ base class và tạo class hierarchy." tabindex="0">Inheritance</span></h2>
+<p>Một vấn đề thú vị xuất hiện khi dùng <span class="term" data-definition="Cơ chế cho phép class nhận member từ base class và tạo class hierarchy." tabindex="0">inheritance</span> trong context này. Cụ thể, code trong <span class="term" data-definition="Class inherit từ một base class." tabindex="0">derived class</span> cũng không thể truy cập inherited <span class="term" data-definition="Access level chỉ cho phép chính class truy cập trực tiếp." tabindex="0">private</span> member.</p>
+<p>Dưới đây, ta có <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> mới inherit từ <code>Character</code>, nhưng function của <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> <code>Healer</code> không thể truy cập <span class="term" data-definition="Access level chỉ cho phép chính class truy cập trực tiếp." tabindex="0">private</span> variable <code>mHealth</code>:</p>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div><pre><code class="language-cpp">class Character {
+public:
+    int GetHealth() const {
+        return mHealth;
+    }
+
+private:
+    int mHealth{100};
+};
+
+class Healer : public Character {
+public:
+    void Heal(int Amount) {
+        mHealth += Amount;
+    }
+};
+</code></pre></div>
+<div class="code-block"><div class="code-toolbar"><span>text</span><button class="copy-button" type="button">Sao chép</button></div><pre><code class="language-text">error: 'Character::mHealth': cannot access private
+member declared in class 'Character'
+</code></pre></div>
+<h2>Dùng <code>protected</code> Member</h2>
+<p>May mắn là ta có một access level nằm giữa <code>public</code> và <code>private</code> để giải quyết vấn đề. Access level này gọi là <code>protected</code>.</p>
+<p><span class="term" data-definition="Access level cho phép chính class và derived class truy cập." tabindex="0">Protected</span> member không thể được truy cập bởi function nằm ngoài <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> hierarchy, nhưng code trong child <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> vẫn có thể truy cập.</p>
+<p>Dưới đây, ta đổi <code>mHealth</code> từ <code>private</code> thành <code>protected</code>:</p>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button class="copy-button" type="button">Sao chép</button></div><pre><code class="language-cpp">#include &lt;iostream&gt;
+
+class Character {
+public:
+    int GetHealth() const {
+        return mHealth;
+    }
+
+protected:
+    int mHealth{100};
+};
+
+class Healer : public Character {
+public:
+    void Heal(int Amount) {
+        mHealth += Amount;
+    }
+};
+
+int main() {
+    Healer Player;
+    std::cout &lt;&lt; "Health: " &lt;&lt; Player.GetHealth();
+
+    Player.Heal(50);
+    std::cout &lt;&lt; "\nHealth: " &lt;&lt; Player.GetHealth();
+}
+</code></pre></div>
+<div class="code-block"><div class="code-toolbar"><span>text</span><button class="copy-button" type="button">Sao chép</button></div><pre><code class="language-text">Health: 100
+Health: 150
+</code></pre></div>
+<h3 class="quiz-heading">Kiểm tra kiến thức: <span class="term" data-definition="Keyword quy định member có thể được truy cập từ đâu." tabindex="0">Access Specifier</span></h3>
+<p><strong>Ba access specifier của class là gì?</strong></p>
+<ol>
+<li><p><code>public</code>, <code>inherited</code> và <code>void</code>.</p>
+<p>Tổ hợp này không đúng. <span class="term" data-definition="Keyword quy định member có thể được truy cập từ đâu." tabindex="0">Access specifier</span> xác định <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> member được truy cập thế nào. Hãy nghĩ về ba access level cơ bản trong <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span>.</p>
+</li>
+<li><p><code>public</code>, <code>inherited</code> và <code>private</code>.</p>
+<p>Gần đúng, nhưng <code>inherited</code> không phải <span class="term" data-definition="Keyword quy định member có thể được truy cập từ đâu." tabindex="0">access specifier</span>. Hãy nhớ specifier nào kiểm soát quyền truy cập từ <span class="term" data-definition="Class inherit từ một base class." tabindex="0">derived class</span>.</p>
+</li>
+<li><p><code>public</code>, <code>protected</code> và <code>private</code>.</p>
+<p><strong>Đúng.</strong> Đây là ba <span class="term" data-definition="Keyword quy định member có thể được truy cập từ đâu." tabindex="0">access specifier</span> nền tảng trong C++, mỗi loại có mức accessibility riêng bên trong và bên ngoài <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> hierarchy.</p>
+</li>
+</ol>
+<p><strong>Khác biệt giữa <code>protected</code> và <code>private</code> là gì?</strong></p>
+<ol>
+<li><p>Chúng tương đương — chỉ là hai lựa chọn tạo cùng behavior.</p>
+<p>Không đúng. Mỗi specifier có vai trò riêng trong kiểm soát truy cập. Hãy xem <span class="term" data-definition="Cơ chế cho phép class nhận member từ base class và tạo class hierarchy." tabindex="0">inheritance</span> ảnh hưởng thế nào đến quyền truy cập <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> member.</p>
+</li>
+<li><p><span class="term" data-definition="Access level cho phép chính class và derived class truy cập." tabindex="0">Protected</span> member có thể được truy cập từ child <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span>; <span class="term" data-definition="Access level chỉ cho phép chính class truy cập trực tiếp." tabindex="0">private</span> member chỉ có thể được truy cập từ chính <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> nơi nó được định nghĩa.</p>
+<p><strong>Đúng.</strong> <code>protected</code> cho phép truy cập trong <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> và subclass, còn <code>private</code> giới hạn truy cập trong chính <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> đó.</p>
+</li>
+<li><p><span class="term" data-definition="Access level chỉ cho phép chính class truy cập trực tiếp." tabindex="0">Private</span> member có thể được truy cập từ child <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span>; <span class="term" data-definition="Access level cho phép chính class và derived class truy cập." tabindex="0">protected</span> member chỉ có thể được truy cập từ <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span> nơi nó được định nghĩa.</p>
+<p>Câu này đảo ngược vai trò của <code>private</code> và <code>protected</code>. Hãy nhớ specifier nào cho phép <span class="term" data-definition="Class inherit từ một base class." tabindex="0">derived class</span> truy cập.</p>
+</li>
+<li><p><span class="term" data-definition="Access level chỉ cho phép chính class truy cập trực tiếp." tabindex="0">Private</span> member có thể được đọc từ child <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span>; <span class="term" data-definition="Access level cho phép chính class và derived class truy cập." tabindex="0">protected</span> member có thể vừa được đọc vừa được sửa từ child <span class="term" data-definition="Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object." tabindex="0">class</span>.</p>
+<p>Không chính xác. <span class="term" data-definition="Access level chỉ cho phép chính class truy cập trực tiếp." tabindex="0">Private</span> member không thể được <span class="term" data-definition="Class inherit từ một base class." tabindex="0">derived class</span> truy cập trực tiếp, dù là đọc hay sửa.</p>
+</li>
+</ol>
+<aside class="takeaway"><strong>Summary</strong>
+<p>Ta đã học đủ ba access level trong C++:</p>
+<ul>
