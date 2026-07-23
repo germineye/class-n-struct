@@ -16,7 +16,7 @@
 ## Tính năng
 
 - Giao diện tối, tương phản cao
-- Nội dung tiếng Việt được biên tập trực tiếp, không dịch từng từ lúc hiển thị
-- Thuật ngữ cốt lõi chỉ có tooltip ở lần xuất hiện đầu tiên trong mỗi bài
-- Câu hỏi trắc nghiệm tương tác, chỉ hiện giải thích sau khi chọn
+- Nội dung tiếng Việt
+- Thuật ngữ cốt lõi có tooltip
+- Câu hỏi trắc nghiệm tương tác, hiện giải thích sau khi chọn
 - Điều hướng hash đơn trang và nút sao chép mã
