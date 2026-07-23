@@ -16,7 +16,7 @@
 ## Tính năng
 
 - Giao diện tối, tương phản cao
-- Thuật ngữ kỹ thuật có tooltip giải thích bằng tiếng Việt
-- Điều khiển tooltip bằng chuột, bàn phím hoặc thao tác chạm
+- Nội dung tiếng Việt được biên tập trực tiếp, không dịch từng từ lúc hiển thị
+- Thuật ngữ cốt lõi chỉ có tooltip ở lần xuất hiện đầu tiên trong mỗi bài
 - Câu hỏi trắc nghiệm tương tác, chỉ hiện giải thích sau khi chọn
-- Nút sao chép mã
+- Điều hướng hash đơn trang và nút sao chép mã
