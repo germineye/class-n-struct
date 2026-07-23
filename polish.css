@@ -1,0 +1,50 @@
+/* Final readability pass: emphasis should guide the reader, not compete with the text. */
+.lesson p strong,
+.lesson li strong {
+  color: inherit;
+  font-weight: 620;
+}
+
+.term {
+  border: 0;
+  color: #d9e8ec;
+  font-weight: inherit;
+  text-decoration: none;
+  cursor: help;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.term:hover,
+.term:focus-visible {
+  color: var(--accent);
+  background: rgba(114, 231, 255, 0.08);
+  outline: none;
+}
+
+.takeaway {
+  padding: 26px 30px;
+}
+
+.takeaway > strong {
+  font-weight: 800;
+}
+
+.takeaway p,
+.takeaway li {
+  color: #edf4e8;
+}
+
+.takeaway li {
+  margin: 12px 0;
+}
+
+.takeaway li strong,
+.takeaway p strong {
+  font-weight: inherit;
+}
+
+@media (max-width: 620px) {
+  .takeaway {
+    padding: 20px;
+  }
+}
