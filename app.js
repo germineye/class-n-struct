@@ -1,97 +1,22 @@
 (() => {
-  const lessonIds = [
-    "abstraction-and-class",
-    "encapsulation-and-access-specifier",
-    "constructor-and-destructor",
-    "struct-and-aggregate-initialization",
-    "operator-overloading",
-    "structured-binding",
-    "inheritance",
-    "protected-member",
-    "member-initializer-list",
-    "working-with-inherited-member"
-  ];
-  const legacyHashes = {
-    classes: lessonIds[0], encapsulation: lessonIds[1], constructors: lessonIds[2],
-    structs: lessonIds[3], operators: lessonIds[4], bindings: lessonIds[5]
-  };
-  const lessons = [...document.querySelectorAll(".lesson")];
-  const links = [...document.querySelectorAll(".lesson-link")];
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
-  const menuButton = document.querySelector(".menu-button");
-  const tooltip = document.getElementById("tooltip");
-  const previous = document.getElementById("previous-lesson");
-  const next = document.getElementById("next-lesson");
-  const progressLabel = document.getElementById("progress-label");
-  const progressBar = document.getElementById("progress-bar");
-  let activeTerm = null;
-
-  function resolveHash() {
-    const raw = location.hash.slice(1);
-    if (legacyHashes[raw]) {
-      history.replaceState(null, "", `#${legacyHashes[raw]}`);
-      return legacyHashes[raw];
-    }
-    return lessonIds.includes(raw) ? raw : lessonIds[0];
-  }
-  function closeMenu() {
-    sidebar.classList.remove("open"); overlay.hidden = true;
-    menuButton.setAttribute("aria-expanded", "false");
-  }
-  function showLesson(id) {
-    const index = lessonIds.indexOf(id);
-    lessons.forEach(x => { const on = x.id === id; x.hidden = !on; x.classList.toggle("active", on); });
-    links.forEach(x => x.classList.toggle("active", x.dataset.lesson === id));
-    progressLabel.textContent = `Bài ${index + 1} / ${lessonIds.length}`;
-    progressBar.style.width = `${((index + 1) / lessonIds.length) * 100}%`;
-    previous.hidden = index === 0;
-    next.hidden = index === lessonIds.length - 1;
-    if (index > 0) previous.href = `#${lessonIds[index - 1]}`;
-    if (index < lessonIds.length - 1) next.href = `#${lessonIds[index + 1]}`;
-    closeMenu(); hideTooltip(); window.scrollTo({ top: 0, behavior: "auto" });
-  }
-  function positionTooltip(term) {
-    const r = term.getBoundingClientRect();
-    const pad = 12;
-    let left = Math.min(r.left, innerWidth - tooltip.offsetWidth - pad);
-    left = Math.max(pad, left);
-    let top = r.bottom + 10;
-    if (top + tooltip.offsetHeight > innerHeight - pad) top = r.top - tooltip.offsetHeight - 10;
-    tooltip.style.left = `${left}px`; tooltip.style.top = `${Math.max(pad, top)}px`;
-  }
-  function showTooltip(term) {
-    activeTerm = term; tooltip.textContent = term.dataset.definition || "";
-    tooltip.classList.add("visible"); tooltip.setAttribute("aria-hidden", "false");
-    requestAnimationFrame(() => positionTooltip(term));
-  }
-  function hideTooltip() {
-    activeTerm = null; tooltip.classList.remove("visible"); tooltip.setAttribute("aria-hidden", "true");
-  }
-  document.addEventListener("click", async event => {
-    const copy = event.target.closest(".copy-button");
-    if (copy) {
-      const text = copy.closest(".code-block").querySelector("code").innerText;
-      try { await navigator.clipboard.writeText(text); copy.textContent = "Đã chép"; }
-      catch { copy.textContent = "Không thể chép"; }
-      setTimeout(() => copy.textContent = "Sao chép", 1200); return;
-    }
-    const term = event.target.closest(".term");
-    if (term) { activeTerm === term ? hideTooltip() : showTooltip(term); return; }
-    if (!event.target.closest(".tooltip")) hideTooltip();
-  });
-  document.addEventListener("mouseover", e => { const term = e.target.closest(".term"); if (term && matchMedia("(hover:hover)").matches) showTooltip(term); });
-  document.addEventListener("mouseout", e => { if (e.target.closest(".term") && matchMedia("(hover:hover)").matches) hideTooltip(); });
-  document.addEventListener("focusin", e => { const term = e.target.closest(".term"); if (term) showTooltip(term); });
-  document.addEventListener("focusout", e => { if (e.target.closest(".term")) hideTooltip(); });
-  addEventListener("resize", () => { if (activeTerm) positionTooltip(activeTerm); if (innerWidth > 900) closeMenu(); });
-  addEventListener("scroll", () => { if (activeTerm) hideTooltip(); }, { passive: true });
-  addEventListener("hashchange", () => showLesson(resolveHash()));
-  menuButton.addEventListener("click", () => {
-    const open = !sidebar.classList.contains("open"); sidebar.classList.toggle("open", open);
-    overlay.hidden = !open; menuButton.setAttribute("aria-expanded", String(open));
-  });
-  overlay.addEventListener("click", closeMenu);
-  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeMenu(); hideTooltip(); } });
-  showLesson(resolveHash());
+const lessons=[
+['abstraction-and-class','Abstraction và Class',4],['encapsulation-and-access-specifier','Encapsulation và Access Specifier',4],['constructor-and-destructor','Constructor và Destructor',4],['struct-and-aggregate-initialization','Struct và Aggregate Initialization',1],['operator-overloading','Operator Overloading',3],['structured-binding','Structured Binding',1],['inheritance','Inheritance',1],['protected-member','Protected Member',1],['member-initializer-list','Member Initializer List',1],['working-with-inherited-member','Làm việc với Inherited Member',5]];
+const ids=lessons.map(x=>x[0]);
+const legacy={classes:ids[0],encapsulation:ids[1],constructors:ids[2],structs:ids[3],operators:ids[4],bindings:ids[5]};
+const defs={'member initializer list':'Danh sách khởi tạo member nằm sau dấu hai chấm của constructor và chạy trước constructor body.','aggregate initialization':'Cách khởi tạo trực tiếp các member của aggregate theo thứ tự khai báo.','structured binding':'Cú pháp C++17 dùng để tách các thành phần của object thành nhiều variable được đặt tên.','operator overloading':'Định nghĩa cách operator có sẵn hoạt động với user-defined type.','member access operator':'Operator dấu chấm dùng để truy cập member của object.','access specifier':'Keyword quy định member có thể được truy cập từ đâu.','class invariant':'Điều kiện phải luôn đúng đối với mọi object hợp lệ của class.','user-defined type':'Type do lập trình viên tự định nghĩa thay vì type có sẵn của ngôn ngữ.','pass by reference':'Truyền tham chiếu đến object thay vì tạo một bản copy.','pass by value':'Truyền một bản copy của argument vào function.','default constructor':'Constructor có thể được gọi mà không cần argument.','derived class':'Class inherit từ một base class.','base class':'Class được một class khác inherit.','instantiation':'Quá trình tạo một object cụ thể từ class.','encapsulation':'Gom dữ liệu và function liên quan vào object, đồng thời che giấu chi tiết triển khai.','abstraction':'Khái quát hóa object cụ thể thành type hoặc nhóm dựa trên đặc điểm chung.','inheritance':'Cơ chế cho phép class nhận member từ base class và tạo class hierarchy.','polymorphism':'Khả năng dùng một interface chung cho nhiều type có behavior khác nhau.','constructor':'Special member function tự chạy khi object được tạo.','destructor':'Special member function tự chạy khi object bị hủy.','shadowing':'Khi declaration ở scope gần hơn che khuất declaration cùng tên ở scope ngoài.','protected':'Access level cho phép chính class và derived class truy cập.','private':'Access level chỉ cho phép chính class truy cập trực tiếp.','public':'Access level cho phép code bên ngoài truy cập.','instance':'Một object cụ thể được tạo từ class.','getter':'Public function dùng để đọc dữ liệu được che giấu.','setter':'Public function dùng để cập nhật dữ liệu theo quy tắc của class.','object':'Một thực thể cụ thể trong chương trình, có state và behavior.','class':'Khuôn mẫu định nghĩa dữ liệu và hành vi chung cho object.','struct':'Type tổng hợp tương tự class nhưng member mặc định là public.','API':'Interface mà code bên ngoài dùng để tương tác với function, class hoặc system.'};
+const $=s=>document.querySelector(s),links=[...document.querySelectorAll('.lesson-link')],slot=$('#lesson-slot'),tip=$('#tooltip'),side=$('#sidebar'),overlay=$('#overlay'),menu=$('.menu-button'),prev=$('#previous-lesson'),next=$('#next-lesson'),label=$('#progress-label'),bar=$('#progress-bar');
+const cache=new Map();let active=null,seq=0;
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function inline(s){const codes=[];s=s.replace(/`([^`]+)`/g,(_,x)=>`\u0000${codes.push(`<code>${esc(x)}</code>`)-1}\u0000`);s=esc(s).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>');return s.replace(/\u0000(\d+)\u0000/g,(_,i)=>codes[i]);}
+function markdown(md){const lines=md.replace(/\r/g,'').split('\n'),out=[];let i=0;while(i<lines.length){let l=lines[i];if(!l.trim()){i++;continue}if(l.startsWith('```')){const lang=l.slice(3).trim()||'text',buf=[];i++;while(i<lines.length&&!lines[i].startsWith('```'))buf.push(lines[i++]);i++;out.push(`<div class="code-block"><div class="code-toolbar"><span>${esc(lang)}</span><button class="copy-button" type="button">Sao chép</button></div><pre><code>${esc(buf.join('\n'))}</code></pre></div>`);continue}const h=l.match(/^(#{1,3})\s+(.*)$/);if(h){const n=h[1].length;out.push(`<h${n}>${inline(h[2])}</h${n}>`);i++;continue}if(l.startsWith('> ')){out.push(`<blockquote>${inline(l.slice(2))}</blockquote>`);i++;continue}if(/^[-*]\s+/.test(l)){const a=[];while(i<lines.length&&/^[-*]\s+/.test(lines[i]))a.push(`<li>${inline(lines[i++].replace(/^[-*]\s+/,''))}</li>`);out.push(`<ul>${a.join('')}</ul>`);continue}if(/^\d+\.\s+/.test(l)){const a=[];while(i<lines.length){const m=lines[i].match(/^\d+\.\s+(.*)$/);if(!m)break;let text=m[1];i++;const extras=[];while(i<lines.length&&(lines[i].startsWith('   ')||!lines[i].trim())){if(lines[i].trim())extras.push(lines[i].trim());i++}a.push(`<li><p>${inline(text)}</p>${extras.map(x=>`<p>${inline(x)}</p>`).join('')}</li>`)}out.push(`<ol>${a.join('')}</ol>`);continue}const p=[l.trim()];i++;while(i<lines.length&&lines[i].trim()&&!/^(#{1,3})\s|^```|^[-*]\s+|^\d+\.\s+|^>\s/.test(lines[i]))p.push(lines[i++].trim());out.push(`<p>${inline(p.join(' '))}</p>`)}return out.join('\n')}
+function enhance(id,index){const a=document.createElement('article');a.className='lesson active';a.id=id;a.dataset.index=index+1;a.innerHTML=slot.innerHTML;slot.innerHTML='';slot.append(a);const h1=a.querySelector('h1'),lead=h1?.nextElementSibling;if(h1){h1.id=id+'-title';a.setAttribute('aria-labelledby',h1.id);const head=document.createElement('header');head.className='lesson-header';head.innerHTML=`<p class="lesson-number">BÀI ${String(index+1).padStart(2,'0')}</p>`;h1.before(head);head.append(h1);if(lead?.tagName==='P'){lead.classList.add('lead');head.append(lead)}}a.querySelectorAll('h3').forEach(h=>{if(h.textContent.startsWith('Kiểm tra kiến thức'))h.classList.add('quiz-heading')});const sum=[...a.querySelectorAll('h2')].find(h=>h.textContent.trim()==='Summary');if(sum){const aside=document.createElement('aside');aside.className='takeaway';aside.innerHTML='<strong>Summary</strong>';let n=sum.nextSibling;sum.replaceWith(aside);while(n){const nx=n.nextSibling;aside.append(n);n=nx}}addFigures(a,id);wrapTerms(a)}
+function addFigures(a,id){const data=id==='structured-binding'?[['Khuyến nghị dùng C++20','visual-studio-cpp-standard.svg','Chọn C++17 hoặc mới hơn để sử dụng structured binding.']]:id==='inheritance'?[['Ta gọi nó là class `Actor`','uml-actor.svg','Actor chứa functionality tổng quát Render().'],['class `Goblin` có thể inherit toàn bộ','uml-actor-goblin.svg','Goblin nhận Render() từ Actor và bổ sung behavior riêng.'],['Hãy thêm một loại object mới','uml-duplicated.svg','Goblin và Dragon đang lặp lại code.'],['Hãy gọi class mới là `Character`','uml-character-hierarchy.svg','Code dùng chung được chuyển vào Character.']]:[];data.forEach(([needle,src,cap])=>{const p=[...a.querySelectorAll('p')].find(x=>x.textContent.includes(needle.replaceAll('`','')));if(p)p.insertAdjacentHTML('afterend',`<figure class="lesson-figure"><img src="assets/${src}" alt="${cap}" loading="lazy"><figcaption>${cap}</figcaption></figure>`)})}
+function wrapTerms(root){const terms=Object.keys(defs).sort((a,b)=>b.length-a.length),re=new RegExp(`(?<![\\w-])(${terms.map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')})(?![\\w-])`,'gi'),walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];while(walker.nextNode()){const p=walker.currentNode.parentElement;if(p&&!p.closest('pre,code,a,button,.term'))nodes.push(walker.currentNode)}nodes.forEach(n=>{if(!re.test(n.data)){re.lastIndex=0;return}re.lastIndex=0;const f=document.createDocumentFragment();let last=0;n.data.replace(re,(m,_,off)=>{f.append(n.data.slice(last,off));const s=document.createElement('span');s.className='term';s.tabIndex=0;s.dataset.definition=defs[terms.find(t=>t.toLowerCase()===m.toLowerCase())];s.textContent=m;f.append(s);last=off+m.length});f.append(n.data.slice(last));n.replaceWith(f)})}
+async function get(id,parts){if(cache.has(id))return cache.get(id);const rs=await Promise.all(Array.from({length:parts},(_,i)=>fetch(`content/${id}.${i+1}.md`).then(r=>{if(!r.ok)throw Error(`HTTP ${r.status}`);return r.text()})));const x=rs.join('');cache.set(id,x);return x}
+function resolved(){const h=location.hash.slice(1);if(legacy[h]){history.replaceState(null,'','#'+legacy[h]);return legacy[h]}return ids.includes(h)?h:ids[0]}
+function close(){side.classList.remove('open');overlay.hidden=true;menu.setAttribute('aria-expanded','false')}
+async function show(id,focus=false){const index=ids.indexOf(id),my=++seq;links.forEach(x=>{const on=x.dataset.lesson===id;x.classList.toggle('active',on);on?x.setAttribute('aria-current','page'):x.removeAttribute('aria-current')});label.textContent=`Bài ${index+1} / ${ids.length}`;bar.style.width=`${(index+1)*10}%`;prev.hidden=index===0;next.hidden=index===ids.length-1;if(index)prev.href='#'+ids[index-1];if(index<9)next.href='#'+ids[index+1];document.title=`${lessons[index][1]} — C++: Class, Struct và Kế thừa`;slot.innerHTML='<p class="loading-message">Đang tải bài học…</p>';close();hide();try{const md=await get(id,lessons[index][2]);if(my!==seq)return;slot.innerHTML=markdown(md);enhance(id,index);scrollTo(0,0);if(focus)$('#lesson-content').focus({preventScroll:true})}catch(e){slot.innerHTML=`<div class="load-error"><strong>Không tải được bài học.</strong><p>${esc(e.message)}</p></div>`}}
+function showTip(t){active=t;tip.textContent=t.dataset.definition;tip.classList.add('visible');tip.setAttribute('aria-hidden','false');requestAnimationFrame(()=>{const r=t.getBoundingClientRect(),p=12;let l=Math.max(p,Math.min(r.left,innerWidth-tip.offsetWidth-p)),top=r.bottom+10;if(top+tip.offsetHeight>innerHeight-p)top=r.top-tip.offsetHeight-10;tip.style.left=l+'px';tip.style.top=Math.max(p,top)+'px'})}function hide(){active=null;tip.classList.remove('visible');tip.setAttribute('aria-hidden','true')}
+async function copy(text){if(navigator.clipboard&&isSecureContext)return navigator.clipboard.writeText(text);const t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';document.body.append(t);t.select();document.execCommand('copy');t.remove()}
+document.addEventListener('click',async e=>{const b=e.target.closest('.copy-button');if(b){try{await copy(b.closest('.code-block').querySelector('code').innerText);b.textContent='Đã chép'}catch{b.textContent='Không thể chép'}setTimeout(()=>b.textContent='Sao chép',1200);return}const t=e.target.closest('.term');if(t){active===t?hide():showTip(t);return}hide()});document.addEventListener('mouseover',e=>{const t=e.target.closest('.term');if(t&&matchMedia('(hover:hover)').matches)showTip(t)});document.addEventListener('mouseout',e=>{if(e.target.closest('.term')&&matchMedia('(hover:hover)').matches)hide()});document.addEventListener('focusin',e=>{const t=e.target.closest('.term');if(t)showTip(t)});document.addEventListener('focusout',e=>{if(e.target.closest('.term'))hide()});addEventListener('hashchange',()=>show(resolved(),true));addEventListener('scroll',hide,{passive:true});menu.onclick=()=>{const on=!side.classList.contains('open');side.classList.toggle('open',on);overlay.hidden=!on;menu.setAttribute('aria-expanded',String(on))};overlay.onclick=close;document.addEventListener('keydown',e=>{if(e.key==='Escape'){close();hide()}});show(resolved());
 })();
