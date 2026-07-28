@@ -1,4 +1,4 @@
-﻿## Kiểu tự định nghĩa
+## Kiểu tự định nghĩa
 
 Cũng như C++ cung cấp một số kiểu có sẵn hữu ích cho nhiều chương trình:
 
@@ -96,15 +96,15 @@ Monster Basher;
 
 Từ class đó, ta có thể tạo ra các đối tượng cụ thể. Trong ví dụ trên, `Bonker` và `Basher` là hai quái vật được tạo từ class `Monster`.
 
-### Thể hiện và khởi tạo thể hiện
+### Đối tượng cụ thể và quá trình tạo đối tượng
 
 Vì class được dùng để tạo đối tượng, khi giải thích khái niệm này người ta thường hình dung class như một bản thiết kế. Class là bản thiết kế để tạo một kiểu đối tượng cụ thể. Nhiều đối tượng có thể được tạo từ cùng một bản thiết kế.
 
-Việc tạo đối tượng từ class được gọi là quá trình **khởi tạo thể hiện** (instantiation). Mỗi đối tượng được tạo ra là một **thể hiện** (instance) cụ thể của class.
+Việc tạo một đối tượng từ class được gọi là **quá trình tạo đối tượng** (instantiation). Đối tượng được tạo ra là một **instance** của class, tức một đối tượng cụ thể thuộc class đó.
 
 Ở ví dụ trên, ta tạo hai đối tượng `Bonker` và `Basher` từ class `Monster`.
 
-`Bonker` và `Basher` đều là instance của class `Monster`.
+`Bonker` và `Basher` đều là các đối tượng thuộc class `Monster`.
 
 ### Kiểm tra kiến thức: Tạo đối tượng từ class
 
@@ -112,7 +112,7 @@ Việc tạo đối tượng từ class được gọi là quá trình **khởi 
 
 1. Một nhóm đối tượng mà từ đó ta có thể tạo đối tượng mới thuộc kiểu đối tượng đó.
 
-   **Đúng.** Class trong lập trình giống như một bản thiết kế. Nó định nghĩa một nhóm đối tượng, và ta dùng nó để tạo các đối tượng — tức đối tượng — thuộc kiểu đó.
+   **Đúng.** Class trong lập trình giống như một bản thiết kế. Nó xác định một nhóm đối tượng và được dùng để tạo ra các đối tượng thuộc kiểu đó.
 
 2. Một tập hợp đối tượng — ví dụ 100 `Goblin` đang được lưu trong bộ nhớ là một class.
 
@@ -120,7 +120,7 @@ Việc tạo đối tượng từ class được gọi là quá trình **khởi 
 
 3. Một thực thể cụ thể tồn tại trong phần mềm, chẳng hạn một quái vật có các biến để cập nhật và các hàm để gọi.
 
-   Mô tả này phù hợp với đối tượng hơn là class. Class là khuôn mẫu chung; mỗi đối tượng là một thể hiện cụ thể được tạo từ khuôn mẫu đó.
+   Mô tả này phù hợp với đối tượng hơn là class. Class là khuôn mẫu chung; đối tượng là sản phẩm cụ thể được tạo từ khuôn mẫu đó.
 
 **Câu lệnh nào cho phép ta tạo một đối tượng `Weapon` mới từ class sau?**
 
