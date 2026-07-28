@@ -1,20 +1,20 @@
-# Làm việc với Inherited Member
+﻿# Làm việc với thành viên kế thừa
 
-Bài này đi sâu vào cách sử dụng inherited method và variable trong C++, gồm constructor call, sửa variable và function shadowing.
+Bài này đi sâu vào cách sử dụng được kế thừa phương thức và biến trong C++, gồm lời gọi constructor, sửa biến và hàm che khuất.
 
-Trong các bài trước, ta đã tìm hiểu cách class inherit function và variable từ parent hoặc base class. Feature mạnh mẽ này của lập trình hướng đối tượng cho phép xây dựng dựa trên code đã có, tăng khả năng tái sử dụng và hiệu quả.
+Trong các bài trước, ta đã tìm hiểu cách class kế thừa hàm và biến từ lớp cha hoặc lớp cơ sở. Tính năng mạnh mẽ này của lập trình hướng đối tượng cho phép xây dựng dựa trên mã đã có, tăng khả năng tái sử dụng và hiệu quả.
 
-Trong bài này, ta sẽ học cách làm việc hiệu quả với inherited member. Ta sẽ khai thác khả năng của chúng đồng thời tránh một số lỗi phổ biến dễ gây rắc rối.
+Trong bài này, ta sẽ học cách làm việc hiệu quả với thành viên kế thừa. Ta sẽ khai thác khả năng của chúng đồng thời tránh một số lỗi phổ biến dễ gây rắc rối.
 
-Sau bài này, ta sẽ có nền tảng vững chắc về cách dùng inherited member trong chương trình, chuẩn bị cho các chủ đề nâng cao hơn ở phần sau.
+Sau bài này, ta sẽ có nền tảng vững chắc về cách dùng thành viên kế thừa trong chương trình, chuẩn bị cho các chủ đề nâng cao hơn ở phần sau.
 
-## Inherit Constructor
+## Kế thừa constructor
 
-Trước đây, ta đã thấy cách định nghĩa constructor cho class. Constructor cho phép truyền giá trị khi tạo object để kiểm soát cách object được khởi tạo.
+Trước đây, ta đã thấy cách định nghĩa constructor cho class. Constructor cho phép truyền giá trị khi tạo đối tượng để kiểm soát cách đối tượng được khởi tạo.
 
-Khi làm việc với inheritance, constructor có thêm một số đặc điểm cần lưu ý. Mặc định, constructor không được inherit bởi derived class.
+Khi làm việc với inheritance, constructor có thêm một số đặc điểm cần lưu ý. Mặc định, constructor không được kế thừa bởi lớp dẫn xuất.
 
-Dưới đây, class `Monster` có constructor nhận ba argument `int`, nhưng constructor đó không tự động có sẵn trong derived class `Goblin`:
+Dưới đây, class `Monster` có constructor nhận ba đối số `int`, nhưng constructor đó không tự động có sẵn trong lớp dẫn xuất `Goblin`:
 
 ```cpp
 #include <iostream>
@@ -39,7 +39,7 @@ int main() {
 Error: no overloaded function could convert all the argument types
 ```
 
-Để class inherit constructor của parent, ta dùng cú pháp hơi lạ `using SomeType::SomeType`, trong đó `SomeType` là tên base class:
+Để class kế thừa constructor của lớp cha, ta dùng cú pháp hơi lạ `using SomeType::SomeType`, trong đó `SomeType` là tên lớp cơ sở:
 
 ```cpp
 #include <iostream>
@@ -67,7 +67,7 @@ int main() {
 Three integers
 ```
 
-Nếu derived class có constructor với danh sách argument trùng danh sách argument của base constructor, instruction `using BaseType::BaseType` sẽ ưu tiên phiên bản cụ thể hơn trong derived class:
+Nếu lớp dẫn xuất có constructor với danh sách đối số trùng danh sách đối số của constructor của lớp cơ sở, câu lệnh `using BaseType::BaseType` sẽ ưu tiên phiên bản cụ thể hơn trong lớp dẫn xuất:
 
 ```cpp
 #include <iostream>
@@ -88,7 +88,7 @@ public:
 class Goblin : public Monster {
 public:
     // Goblin đã có constructor (int, int, int),
-    // nên using chỉ inherit constructor (int, int)
+    // nên using chỉ kế thừa constructor (int, int)
     using Monster::Monster;
 
     Goblin(int x, int y, int z) {
@@ -108,68 +108,4 @@ int main() {
 ```text
 Two integers
 I'll handle this one
-```
-
-## Gọi Inherited Constructor
-
-Mọi thứ phức tạp hơn một chút khi base class có variable cần khởi tạo. Constructor của derived class cũng cần khởi tạo variable thuộc base class.
-
-Cách đơn giản nhất là gọi constructor nằm trong class mà ta inherit. Nếu không can thiệp, default constructor sẽ được dùng xuyên suốt toàn bộ inheritance hierarchy:
-
-```cpp
-#include <iostream>
-
-class Monster {
-public:
-    Monster() {
-        std::cout << "Default Constructing Monster";
-    }
-};
-
-class Goblin : public Monster {
-public:
-    Goblin() {
-        std::cout << "\nDefault Constructing Goblin";
-    }
-};
-
-int main() {
-    Goblin Bonker;
-}
-```
-
-```text
-Default Constructing Monster
-Default Constructing Goblin
-```
-
-Bên trong bất kỳ constructor nào của derived class, ta có thể chỉ định rõ base constructor muốn dùng.
-
-Nơi duy nhất có thể gọi inherited constructor là member initializer list. Chương trình sau tái tạo behavior trước, nhưng constructor `Goblin` giờ gọi rõ default constructor của `Monster`:
-
-```cpp
-#include <iostream>
-
-class Monster {
-public:
-    Monster() {
-        std::cout << "Default Constructing Monster";
-    }
-};
-
-class Goblin : public Monster {
-public:
-    Goblin() : Monster{} {
-        std::cout << "\nDefault Constructing Goblin";
-    }
-};
-
-int main() {
-    Goblin Bonker;
-}
-```
-
-```text
-Default Constructing Monster
-Default Constructing Goblin
 ```

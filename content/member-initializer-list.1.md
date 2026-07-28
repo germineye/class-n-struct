@@ -1,8 +1,8 @@
-# Member Initializer List
+﻿# Danh sách khởi tạo thành viên
 
-Bài này giới thiệu member initializer list, tập trung vào lợi ích về performance, readability và cách sử dụng hiệu quả.
+Bài này giới thiệu danh sách khởi tạo thành viên, tập trung vào lợi ích về hiệu năng, độ dễ đọc và cách sử dụng hiệu quả.
 
-Trong các bài trước, ta đã thấy cách khởi tạo member của class bằng giá trị cụ thể bên trong constructor body:
+Trong các bài trước, ta đã thấy cách khởi tạo thành viên của class bằng giá trị cụ thể bên trong thân constructor:
 
 ```cpp
 class Character {
@@ -18,19 +18,19 @@ private:
 
 ### Nhắc lại: Constructor và Destructor
 
-Constructor và destructor là các special function có thể thêm vào class để kiểm soát cách object được tạo và bị hủy.
+Constructor và destructor là các hàm đặc biệt có thể thêm vào class để kiểm soát cách đối tượng được tạo và bị hủy.
 
-C++ cung cấp một cú pháp riêng cho mục đích khởi tạo member, gọi là **member initializer list**.
+C++ cung cấp một cú pháp riêng cho mục đích khởi tạo thành viên, gọi là **danh sách khởi tạo thành viên**.
 
-## Định nghĩa Member Initializer List
+## Định nghĩa danh sách khởi tạo thành viên
 
-Ví dụ trước, nơi ta khởi tạo `Health` thành `100` trong constructor, có thể được viết bằng member initializer list như sau:
+Ví dụ trước, nơi ta khởi tạo `Health` thành `100` trong constructor, có thể được viết bằng danh sách khởi tạo thành viên như sau:
 
 ```cpp
 class Character {
 public:
     Character() : mHealth{150} {
-        // Constructor body nằm ở đây
+        // Thân constructor nằm ở đây
     }
 
 private:
@@ -38,13 +38,13 @@ private:
 };
 ```
 
-Ta đặt initializer list giữa tên function và function body, phân cách bằng dấu `:`.
+Ta đặt danh sách khởi tạo giữa tên hàm và thân hàm, phân cách bằng dấu `:`.
 
-Ta vẫn cung cấp constructor body bên trong cặp dấu `{` và `}` như bình thường. Body có thể để trống như ví dụ trên hoặc chứa bất kỳ code nào cần thiết.
+Thân constructor vẫn nằm trong cặp dấu `{` và `}` như bình thường. Phần này có thể để trống như ví dụ trên hoặc chứa mã bổ sung khi cần.
 
-### Kiểm tra kiến thức: Dùng Member Initializer List
+### Kiểm tra kiến thức: Dùng danh sách khởi tạo thành viên
 
-**Làm thế nào để cập nhật class sau để dùng member initializer list?**
+**Làm thế nào để cập nhật class sau để dùng danh sách khởi tạo thành viên?**
 
 ```cpp
 class Weapon {
@@ -68,7 +68,7 @@ public:
 };
 ```
 
-Ta vẫn cần cung cấp dấu ngoặc nhọn cho function body, ngay cả khi không cần đặt code bên trong.
+Ta vẫn cần cung cấp dấu ngoặc nhọn cho thân hàm, ngay cả khi không cần đặt mã bên trong.
 
 2.
 
@@ -81,7 +81,7 @@ public:
 };
 ```
 
-**Đúng.** `mDamage` được khởi tạo trực tiếp trong member initializer list, còn constructor body để trống.
+**Đúng.** `mDamage` được khởi tạo trực tiếp trong danh sách khởi tạo thành viên, còn thân constructor để trống.
 
 3.
 
@@ -96,40 +96,40 @@ public:
 };
 ```
 
-Cách này vẫn dùng constructor body để gán giá trị. Hãy tập trung vào việc khởi tạo trực tiếp member trong initializer list.
+Cách này vẫn dùng thân constructor để gán giá trị. Hãy tập trung vào việc khởi tạo trực tiếp thành viên trong danh sách khởi tạo.
 
-## Vì sao dùng Member Initializer List?
+## Vì sao dùng danh sách khởi tạo thành viên?
 
-Member initializer list có ba lợi ích chính so với code tương đương trong constructor body.
+Danh sách khởi tạo thành viên có ba lợi ích chính so với mã tương đương trong thân constructor.
 
-### Performance
+### Hiệu năng
 
-Do chi tiết trong cách object được xây dựng, khởi tạo variable trong constructor body chậm hơn một chút so với mức cần thiết.
+Do chi tiết trong cách đối tượng được xây dựng, khởi tạo biến trong thân constructor chậm hơn một chút so với mức cần thiết.
 
-Khi object được tạo, memory được cấp cho các variable và chúng ban đầu nhận một giá trị mặc định. Điều này diễn ra trước khi constructor body được thực thi. Nếu constructor body sau đó thay đổi giá trị của các variable, chương trình phải quay lại và cập nhật những memory location đó.
+Khi đối tượng được tạo, bộ nhớ được cấp cho các biến và chúng ban đầu nhận một giá trị mặc định. Điều này diễn ra trước khi thân constructor được thực thi. Nếu thân constructor sau đó thay đổi giá trị của các biến, chương trình phải quay lại và cập nhật những vị trí bộ nhớ đó.
 
-Khi chỉ định giá trị ban đầu trong initializer list riêng, compiler có thể nhận biết và tối ưu quá trình thành một bước duy nhất.
+Khi chỉ định giá trị ban đầu trong danh sách khởi tạo riêng, trình biên dịch có thể nhận biết và tối ưu quá trình thành một bước duy nhất.
 
-### Code Readability
+### Độ dễ đọc của mã
 
-Member initializer list được thiết kế riêng để khởi tạo class member.
+Danh sách khởi tạo thành viên được thiết kế riêng để khởi tạo thành viên của class.
 
-Sau khi quen với cú pháp, khi đọc lướt file ta có thể lập tức hiểu phần code đó đang làm gì.
+Sau khi quen với cú pháp, khi đọc lướt tệp ta có thể lập tức hiểu phần mã đó đang làm gì.
 
 ### Đôi khi là bắt buộc
 
-Trong một số trường hợp, dùng member initializer list là bắt buộc để có functionality mong muốn. Ta sẽ thấy một ví dụ trong bài tiếp theo và thêm nhiều ví dụ ở phần sau của khóa học.
+Trong một số trường hợp, dùng danh sách khởi tạo thành viên là bắt buộc để có chức năng mong muốn. Ta sẽ thấy một ví dụ trong bài tiếp theo và thêm nhiều ví dụ ở phần sau của khóa học.
 
-## Khởi tạo nhiều Member
+## Khởi tạo nhiều thành viên
 
-Nếu muốn khởi tạo nhiều class variable, ta thêm chúng vào list và phân cách bằng dấu phẩy:
+Nếu muốn khởi tạo nhiều biến của class, ta thêm chúng vào danh sách và phân cách bằng dấu phẩy:
 
 ```cpp
 class Character {
 public:
     Character()
         : mHealth{150}, mLevel{5} {
-        // Constructor body nằm ở đây
+        // Thân constructor nằm ở đây
     }
 
 private:
@@ -138,11 +138,11 @@ private:
 };
 ```
 
-## Dùng Expression trong Member Initializer List
+## Dùng biểu thức trong danh sách khởi tạo thành viên
 
-Giống việc khởi tạo variable khác, ta có thể dùng bất kỳ expression nào tạo ra giá trị đúng type. Ví dụ:
+Giống việc khởi tạo biến khác, ta có thể dùng bất kỳ biểu thức nào tạo ra giá trị đúng kiểu. Ví dụ:
 
-C++ không quá nhạy cảm với whitespace, nên ta thường có thể thêm line break và khoảng trắng khi cần để code dễ đọc hơn:
+C++ khá linh hoạt về khoảng trắng, nên ta có thể xuống dòng và căn lề để mã dễ đọc hơn:
 
 ```cpp
 int GetLevel() {
@@ -154,7 +154,7 @@ public:
     Character()
         : mHealth{100 + 50},
           mLevel{GetLevel()} {
-        // Constructor body nằm ở đây
+        // Thân constructor nằm ở đây
     }
 
 private:
@@ -163,9 +163,9 @@ private:
 };
 ```
 
-## Dùng Parameter trong Member Initializer List
+## Dùng tham số trong danh sách khởi tạo thành viên
 
-Tất nhiên, các ví dụ trên hơi thừa. Chúng không thực sự cần initializer list hay constructor; ta có thể viết trực tiếp:
+Tất nhiên, các ví dụ trên hơi thừa. Chúng không thực sự cần danh sách khởi tạo hay constructor; ta có thể viết trực tiếp:
 
 ```cpp
 class Character {
@@ -174,14 +174,14 @@ class Character {
 };
 ```
 
-Điểm mạnh của việc khởi tạo variable từ constructor là ta có thể dùng argument được truyền vào constructor. Dưới đây là yêu cầu tạo hai object `Character`, mỗi request truyền hai argument cho một constructor giả định:
+Danh sách khởi tạo có thể sử dụng trực tiếp các đối số của constructor. Ví dụ dưới đây tạo hai đối tượng `Character`; mỗi lần gọi đều truyền hai đối số vào cùng một constructor:
 
 ```cpp
 Character SmallCharacter{150, 5};
 Character BigCharacter{300, 15};
 ```
 
-Với member initializer list, ta có thể thiết lập constructor để hỗ trợ cú pháp đó như sau:
+Với danh sách khởi tạo thành viên, ta có thể thiết lập constructor để hỗ trợ cú pháp đó như sau:
 
 ```cpp
 class Character {
@@ -189,7 +189,7 @@ public:
     Character(int Health, int Level)
         : mHealth{Health},
           mLevel{Level} {
-        // Constructor body nằm ở đây
+        // Thân constructor nằm ở đây
     }
 
 private:
@@ -198,9 +198,9 @@ private:
 };
 ```
 
-### Kiểm tra kiến thức: Dùng Member Initializer List với Parameter
+### Kiểm tra kiến thức: Dùng danh sách khởi tạo thành viên với tham số
 
-**Làm thế nào để cập nhật class sau để dùng member initializer list?**
+**Làm thế nào để cập nhật class sau để dùng danh sách khởi tạo thành viên?**
 
 ```cpp
 class Weapon {
@@ -224,7 +224,7 @@ public:
 };
 ```
 
-**Đúng.** Class member `mDamage` được khởi tạo trực tiếp bằng parameter `Damage`.
+**Đúng.** Thành viên của class `mDamage` được khởi tạo trực tiếp bằng tham số `Damage`.
 
 2.
 
@@ -237,7 +237,7 @@ public:
 };
 ```
 
-Thứ tự bị đảo ngược. Code này đang cố khởi tạo variable tên `Damage` bằng parameter tên `mDamage`, trong khi cả variable lẫn parameter theo vai trò đó đều không tồn tại.
+Thứ tự bị đảo ngược. Mã này đang cố khởi tạo biến tên `Damage` bằng tham số tên `mDamage`, trong khi cả biến lẫn tham số theo vai trò đó đều không tồn tại.
 
 3.
 
@@ -250,7 +250,7 @@ public:
 };
 ```
 
-Cách này nhầm lẫn parameter với class member. Trong initializer list, ta khởi tạo trực tiếp class member bằng parameter được cung cấp.
+Cách này nhầm lẫn tham số với thành viên của class. Trong danh sách khởi tạo, ta khởi tạo trực tiếp thành viên của class bằng tham số được cung cấp.
 
 4.
 
@@ -265,14 +265,14 @@ public:
 };
 ```
 
-Cách này không dùng member initializer list mà vẫn gán trong constructor body. Hãy dùng initializer list để đặt class member trực tiếp.
+Cách này không dùng danh sách khởi tạo thành viên mà vẫn gán trong thân constructor. Hãy dùng danh sách khởi tạo để đặt thành viên của class trực tiếp.
 
-## Summary
+## Tóm tắt
 
-Trong bài này, ta đã tìm hiểu member initializer list và cách nó cung cấp phương pháp hiệu quả hơn để khởi tạo class member, cải thiện cả performance lẫn code readability. Các ý chính:
+Trong bài này, ta đã tìm hiểu danh sách khởi tạo thành viên — cách khởi tạo trực tiếp các thành viên trước khi thân constructor chạy. Cách viết này thường rõ ràng và hiệu quả hơn. Các ý chính:
 
-- Member initializer list cho phép khởi tạo trực tiếp class member.
-- Nó cải thiện performance bằng cách giảm số operation trong quá trình tạo object.
-- Nó làm code rõ ràng hơn vì thể hiện trực tiếp ý định khởi tạo.
-- Trong một số trường hợp, member initializer list là bắt buộc để class hoạt động đúng.
-- Ta có thể khởi tạo nhiều member, đồng thời dùng expression và constructor parameter trong initializer list.
+- Danh sách khởi tạo thành viên cho phép khởi tạo trực tiếp thành viên của class.
+- Nó tránh việc khởi tạo rồi gán lại, nhờ đó có thể giảm công việc không cần thiết.
+- Nó làm mã rõ ràng hơn vì thể hiện trực tiếp ý định khởi tạo.
+- Trong một số trường hợp, danh sách khởi tạo thành viên là bắt buộc để class hoạt động đúng.
+- Ta có thể khởi tạo nhiều thành viên, đồng thời dùng biểu thức và tham số của constructor trong danh sách khởi tạo.

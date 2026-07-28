@@ -1,4 +1,4 @@
-# C++ Class, Struct và Kế thừa
+﻿# C++ Class, Struct và Kế thừa
 
 ## Nội dung
 
@@ -8,7 +8,7 @@
 04. Struct và Khởi tạo tổng hợp
 05. Nạp chồng toán tử
 06. Structured Binding
-07. Inheritance
+07. Kế thừa
 08. Thành viên protected
 09. Danh sách khởi tạo thành viên
 10. Làm việc với thành viên kế thừa
