@@ -84,7 +84,7 @@ Các ý chính trong bài này:
 - Giải thích abstraction là quá trình khái quát hóa các đối tượng cụ thể thành những nhóm rộng hơn, giúp mã hiệu quả và dễ quản lý hơn.
 - Trình bày kiểu có sẵn trong C++ như `int`, `bool` và `std::string` như các ví dụ về abstraction.
 - Trình bày cách dùng class để tạo kiểu riêng cho các đối tượng trong dự án.
-- Phân biệt class với đối tượng: class là khuôn mẫu chung, còn đối tượng là một thể hiện cụ thể được tạo từ khuôn mẫu đó.
+- Phân biệt class với đối tượng: class là khuôn mẫu chung, còn đối tượng là một đối tượng cụ thể được tạo từ khuôn mẫu đó.
 - Giới thiệu việc tạo đối tượng từ class, và cách dùng toán tử truy cập thành viên `.` để tương tác với biến và hàm của đối tượng.
 - Minh họa cách định nghĩa thành viên của class, gồm cả biến và hàm.
 - Giới thiệu nguyên mẫu hàm thành viên: hàm có thể được khai báo trong class nhưng định nghĩa ở vị trí khác.

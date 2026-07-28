@@ -96,15 +96,15 @@ Monster Basher;
 
 Từ class đó, ta có thể tạo ra các đối tượng cụ thể. Trong ví dụ trên, `Bonker` và `Basher` là hai quái vật được tạo từ class `Monster`.
 
-### Thể hiện và khởi tạo thể hiện
+### Đối tượng cụ thể và quá trình tạo đối tượng
 
 Vì class được dùng để tạo đối tượng, khi giải thích khái niệm này người ta thường hình dung class như một bản thiết kế. Class là bản thiết kế để tạo một kiểu đối tượng cụ thể. Nhiều đối tượng có thể được tạo từ cùng một bản thiết kế.
 
-Việc tạo đối tượng từ class được gọi là quá trình **khởi tạo thể hiện** (instantiation). Mỗi đối tượng được tạo ra là một **thể hiện** (instance) cụ thể của class.
+Việc tạo đối tượng từ class được gọi là **quá trình tạo đối tượng** (instantiation). Mỗi đối tượng được tạo ra là một **đối tượng cụ thể** (instance) của class.
 
 Ở ví dụ trên, ta tạo hai đối tượng `Bonker` và `Basher` từ class `Monster`.
 
-`Bonker` và `Basher` đều là instance của class `Monster`.
+`Bonker` và `Basher` đều là các đối tượng thuộc class `Monster`.
 
 ### Kiểm tra kiến thức: Tạo đối tượng từ class
 
@@ -120,7 +120,7 @@ Việc tạo đối tượng từ class được gọi là quá trình **khởi 
 
 3. Một thực thể cụ thể tồn tại trong phần mềm, chẳng hạn một quái vật có các biến để cập nhật và các hàm để gọi.
 
-   Mô tả này phù hợp với đối tượng hơn là class. Class là khuôn mẫu chung; mỗi đối tượng là một thể hiện cụ thể được tạo từ khuôn mẫu đó.
+   Mô tả này phù hợp với đối tượng hơn là class. Class là khuôn mẫu chung; mỗi đối tượng là một đối tượng cụ thể được tạo từ khuôn mẫu đó.
 
 **Câu lệnh nào cho phép ta tạo một đối tượng `Weapon` mới từ class sau?**
 
