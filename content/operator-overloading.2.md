@@ -1,98 +1,10 @@
+﻿## Nạp chồng toán tử bằng hàm thành viên
 
+Các ví dụ trước triển khai nạp chồng toán tử bằng hàm độc lập bên ngoài class hoặc struct. Chúng đôi khi được gọi là **hàm tự do**.
 
-// vec * num
-Vector3 operator*(Vector3 vec, int num) {
-    return num * vec;
-}
-```
+Tuy nhiên, ta cũng có thể triển khai toán tử dưới dạng hàm thành viên bên trong class hoặc struct liên quan.
 
-### Commutative Operation
-
-Operation mà thứ tự operand không quan trọng được gọi là **commutative** — có tính giao hoán.
-
-Phép cộng số nguyên là commutative vì `x + y` và `y + x` tương đương. Việc đổi chỗ operand không thay đổi kết quả.
-
-Phép trừ không commutative, vì `x - y` và `y - x` không nhất thiết cho cùng kết quả.
-
-### Kiểm tra kiến thức: Operator Overloading
-
-**Function prototype nào cần thiết để hai object `Vector3` có thể được trừ bằng operator `-`, trả về một `Vector3` mới?**
-
-```cpp
-Vector3 CurrentPosition{1.0F, 2.0F, 3.0F};
-Vector3 Reverse{4.0F, 5.0F, 6.0F};
-
-Vector3 NewPosition{CurrentPosition - Reverse};
-```
-
-1. `Vector3 -(Vector3 a, Vector3 b)`
-
-   Hãy xem lại cú pháp định nghĩa operator trong C++. Tên operator cần có prefix `operator`.
-
-2. `operator-(Vector3 a, Vector3 b)`
-
-   Hãy nhớ chỉ định return type để cho biết operation tạo ra thứ gì.
-
-3. `Vector3 operator-(Vector3 a, Vector3 b)`
-
-   **Đúng.** Prototype này khớp format mong đợi của operator overloading.
-
-**Function nào cho phép một `Vector3` được nhân với `int` bằng operator `*`?**
-
-```cpp
-Vector3 CurrentPosition{1.0F, 2.0F, 3.0F};
-Vector3 NewPosition{CurrentPosition * 5};
-```
-
-1.
-
-```cpp
-Vector3 operator*(Vector3 a, int b) {
-    return Vector3{
-        a.x * b,
-        a.y * b,
-        a.z * b
-    };
-}
-```
-
-**Đúng.** Function này định nghĩa chính xác operator nhân `Vector3` với `int` theo thứ tự trong expression.
-
-2.
-
-```cpp
-Vector3 operator*(Vector3 a, Vector3 b) {
-    return Vector3{
-        a.x * b,
-        a.y * b,
-        a.z * b
-    };
-}
-```
-
-Hãy nhìn kỹ type của operand trong operation. Operand thứ hai có khớp ví dụ không?
-
-3.
-
-```cpp
-Vector3 operator*(int a, Vector3 b) {
-    return Vector3{
-        b.x * a,
-        b.y * a,
-        b.z * a
-    };
-}
-```
-
-Thứ tự argument quan trọng. `CurrentPosition * 5` sẽ gọi function nhận `Vector3` làm argument đầu tiên và `int` làm argument thứ hai.
-
-## Overload Operator bằng Member Function
-
-Các ví dụ trước triển khai operator overloading bằng standalone function bên ngoài class hoặc struct. Chúng đôi khi được gọi là **free function**.
-
-Tuy nhiên, ta cũng có thể triển khai operator dưới dạng member function bên trong class hoặc struct liên quan.
-
-Operator `+` có thể trông như sau khi dùng cách đó:
+Toán tử `+` có thể trông như sau khi dùng cách đó:
 
 ```cpp
 struct Vector3 {
@@ -110,25 +22,25 @@ struct Vector3 {
 };
 ```
 
-Điểm quan trọng trong declaration của `operator+` dưới dạng member function là nó chỉ có một parameter.
+Điểm quan trọng trong khai báo của `operator+` dưới dạng hàm thành viên là nó chỉ có một tham số.
 
-Điều này có thể gây bối rối vì operator `+` có hai operand — trái và phải. Khi tạo nó dưới dạng free function trước đó, ta cần hai parameter:
+Điều này có thể gây bối rối vì toán tử `+` có hai toán hạng — trái và phải. Khi tạo nó dưới dạng hàm tự do trước đó, ta cần hai tham số:
 
 ```cpp
 Vector3 operator+(Vector3 a, Vector3 b);
 ```
 
-Nhưng khi overload operator dưới dạng member function, function được gọi trong context của left operand. Vì vậy, trong expression như `x + Other.x`, `x` truy cập member `x` của left operand, còn `Other.x` truy cập member `x` của right operand.
+Nhưng khi nạp chồng toán tử dưới dạng hàm thành viên, hàm được gọi trong ngữ cảnh của toán hạng trái. Vì vậy, trong biểu thức như `x + Other.x`, `x` truy cập thành viên `x` của toán hạng trái, còn `Other.x` truy cập thành viên `x` của toán hạng phải.
 
-### Kiểm tra kiến thức: Operator Overloading bằng Member Function
+### Kiểm tra kiến thức: Nạp chồng toán tử bằng hàm thành viên
 
-**Làm thế nào để object `Vector3` có thể nhân với `float` bằng member function operator overload?**
+**Làm thế nào để đối tượng `Vector3` có thể nhân với `float` bằng hàm thành viên toán tử nạp chồng?**
 
 ```cpp
 struct Vector3 {
     float x, y, z;
 
-    // Thêm function ở đây
+    // Thêm hàm ở đây
 };
 
 Vector3 MyVector{4.0F, 5.0F, 6.0F};
@@ -151,7 +63,7 @@ struct Vector3 {
 };
 ```
 
-**Đúng.** Left operand chính là object gọi member function, nên chỉ cần parameter cho right operand.
+**Đúng.** Toán hạng trái chính là đối tượng gọi hàm thành viên, nên chỉ cần tham số cho toán hạng phải.
 
 2.
 
@@ -169,7 +81,7 @@ struct Vector3 {
 };
 ```
 
-Khi overload operator dưới dạng member function, left operand không xuất hiện như một parameter.
+Khi nạp chồng toán tử dưới dạng hàm thành viên, toán hạng trái không xuất hiện như một tham số.
 
 3.
 
@@ -184,3 +96,85 @@ struct Vector3 {
     }
 };
 ```
+
+Mã này đang cố sửa toán hạng trái. Điều đó có thể được thực hiện với một số toán tử nếu cần, nhưng hàm khai báo sẽ trả về `Vector3` mà lại không trả về giá trị nào.
+
+## Toán tử một ngôi
+
+Các phần trước đều là ví dụ về **toán tử hai ngôi**. Toán tử hai ngôi có hai toán hạng — trái và phải.
+
+```cpp
+// Cộng LeftOperand và RightOperand
+LeftOperand + RightOperand;
+```
+
+Một số toán tử chỉ nhận một toán hạng; chúng được gọi là **toán tử một ngôi**. `++` là ví dụ về toán tử một ngôi.
+
+```cpp
+// Tăng SomeNumber
+SomeNumber++;
+```
+
+Một số ký hiệu như `-` có thể được dùng dưới dạng một ngôi hoặc hai ngôi. Một ngôi `-` thường dùng để lấy dạng âm của toán hạng, còn hai ngôi `-` dùng để trừ toán hạng phải khỏi toán hạng trái:
+
+```cpp
+int Number{5};
+
+-Number;          // Trả về -5
+Number - Number; // Trả về 0
+```
+
+Ta triển khai một ngôi và toán tử hai ngôi theo cùng một cách. Khác biệt duy nhất là số tham số của hàm:
+
+- Nạp chồng toán tử hai ngôi bằng hàm độc lập: 2 tham số.
+- Nạp chồng toán tử hai ngôi bằng hàm thành viên: 1 tham số.
+- Nạp chồng toán tử một ngôi bằng hàm độc lập: 1 tham số.
+- Nạp chồng toán tử một ngôi bằng hàm thành viên: không có tham số.
+
+Dưới đây, ta nạp chồng một ngôi `-` bằng hàm thành viên:
+
+```cpp
+struct Vector3 {
+    float x;
+    float y;
+    float z;
+
+    Vector3 operator-() const {
+        return Vector3{-x, -y, -z};
+    }
+};
+```
+
+### Kiểm tra kiến thức: Nạp chồng toán tử một ngôi
+
+**Làm thế nào để nạp chồng một ngôi `-` bằng hàm độc lập?**
+
+1.
+
+```cpp
+Vector3 operator-() {
+    return Vector3{-this.x, -this.y, -this.z};
+}
+```
+
+Chưa đúng. Khi nạp chồng toán tử một ngôi bằng hàm độc lập, ta nhận toán hạng qua tham số.
+
+2.
+
+```cpp
+Vector3 operator-(Vector3) {
+    return {-Vector3.x, -Vector3.y, -Vector3.z};
+}
+```
+
+Ta cần dùng đúng cú pháp tham số của hàm, gồm cả tên tham số.
+
+3.
+
+```cpp
+Vector3 operator-(Vector3 a) {
+    return Vector3{-a.x, -a.y, -a.z};
+}
+```
+
+**Đúng.** Hàm toán tử một ngôi độc lập nhận đúng một toán hạng qua tham số.

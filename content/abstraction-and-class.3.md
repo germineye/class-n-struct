@@ -1,42 +1,50 @@
+﻿## Thành viên của class
 
+Để mỗi đối tượng có thể lưu trạng thái và thực hiện hành động, ta khai báo các biến và hàm tương ứng bên trong class.
+
+Các biến và hàm nằm trong class được gọi chung là **thành viên của class**.
+
+Cú pháp khai báo chúng vẫn giống như trước; điểm khác biệt là biến và hàm được đặt bên trong cặp dấu ngoặc nhọn của class.
+
+Hiện tại, ta cũng nên bảo đảm chúng nằm dưới dòng `public:` trong class:
 
 ```cpp
 class Monster {
 public:
-    // Một variable
+    // Một biến
     int Health{150};
 
-    // Một function
+    // Một hàm
     void TakeDamage(int Damage) {
         Health -= Damage;
     }
 };
 ```
 
-### Thuật ngữ Class Member
+### Các cách gọi thành viên của class
 
-Có nhiều thuật ngữ khác nhau được dùng để nói về class member.
+Tài liệu C++ có thể dùng nhiều tên khác nhau cho các thành viên của class.
 
-Variable bên trong class đôi khi được gọi bằng các tên như **data member**, **field** hoặc **property**.
+Biến bên trong class đôi khi được gọi bằng các tên như **thành viên dữ liệu**, **trường** hoặc **thuộc tính**.
 
-Tương tự, function gắn với class đôi khi được gọi là **method** hoặc **member function**.
+Hàm thuộc class thường được gọi là **hàm thành viên**; một số tài liệu cũng dùng từ **method**.
 
 Nhìn chung, các thuật ngữ này đều liên quan đến cùng một nhóm ý tưởng và ý nghĩa thường sẽ rõ từ ngữ cảnh.
 
-## Member Access Operator
+## Toán tử truy cập thành viên
 
-Sau khi tạo object từ class, ta sẽ muốn truy cập các variable và function mà class cung cấp cho object đó.
+Sau khi tạo đối tượng từ class, ta sẽ muốn truy cập các biến và hàm mà class cung cấp cho đối tượng đó.
 
-Ta làm việc này bằng **member access operator**, tức một dấu chấm đơn giản: `.`.
+Ta làm việc này bằng **toán tử truy cập thành viên**, tức một dấu chấm đơn giản: `.`.
 
-Ví dụ, truy cập variable `Health` của object `Monster` trông như sau:
+Ví dụ, truy cập biến `Health` của đối tượng `Monster` trông như sau:
 
 ```cpp
 Monster Bonker;
 Bonker.Health;
 ```
 
-Gọi function trông như sau:
+Gọi hàm trông như sau:
 
 ```cpp
 Monster Bonker;
@@ -70,16 +78,16 @@ Bonker Health: 150
 Bonker Health: 125
 ```
 
-Ta có thể dùng class variable giống như mọi variable khác có cùng type. Ở trên, `Bonker.Health` là một `int`, nên ta có thể dùng nó như bất kỳ `int` nào khác. Ví dụ, ta có thể:
+Ta có thể dùng biến của class giống như mọi biến khác có cùng kiểu. Ở trên, `Bonker.Health` là một `int`, nên ta có thể dùng nó như bất kỳ `int` nào khác. Ví dụ, ta có thể:
 
-- Truyền nó làm argument cho một function.
-- Copy giá trị của nó sang variable mới.
+- Truyền nó làm đối số cho một hàm.
+- Sao chép giá trị của nó sang biến mới.
 - Dùng `++` để tăng nó.
-- Dùng `!=` để so sánh nó với một số khác và tạo ra kết quả boolean.
+- Dùng `!=` để so sánh nó với một số khác và tạo ra kết quả logic.
 
-### Kiểm tra kiến thức: Truy cập Class Member
+### Kiểm tra kiến thức: Truy cập thành viên của class
 
-Giả sử ta có code sau:
+Giả sử ta có mã sau:
 
 ```cpp
 class Weapon {
@@ -90,70 +98,20 @@ public:
 Weapon IronSword;
 ```
 
-**Statement nào cho phép ta truy cập integer `Damage` của object?**
+**Câu lệnh nào cho phép ta truy cập số nguyên `Damage` của đối tượng?**
 
 1. `Weapon.Damage;`
 
-   Statement này dùng sai tên class thay vì tên object. Hãy nghĩ về cách truy cập property của một object đã được tạo.
+   Câu lệnh này dùng sai tên class thay vì tên đối tượng. Hãy nghĩ về cách truy cập thuộc tính của một đối tượng đã được tạo.
 
 2. `IronSword.Damage;`
 
-   **Đúng.** Đầu tiên, ta chỉ định object chứa variable. Trong trường hợp này là object `IronSword`.
+   **Đúng.** Đầu tiên, ta chỉ định đối tượng chứa biến. Trong trường hợp này là đối tượng `IronSword`.
 
-   Tiếp theo, ta dùng member access operator `.`.
+   Tiếp theo, ta dùng toán tử truy cập thành viên `.`.
 
-   Sau đó, ta chỉ định member muốn truy cập. Trong trường hợp này là variable `Damage`.
+   Sau đó, ta chỉ định thành viên muốn truy cập. Trong trường hợp này là biến `Damage`.
 
 3. `Damage.IronSword;`
 
-   Cú pháp này bị đảo ngược. Trong C++, tên object đứng trước, theo sau là member access operator `.` rồi đến tên member.
-
-## Lưu ý về Class Variable
-
-Một điểm thường gây nhầm lẫn ở giai đoạn này là chính xác thì việc mọi instance của class có cùng một tập variable mang ý nghĩa gì.
-
-Trong định nghĩa class, khi khai báo variable theo cách đã minh họa, ta đang nói rằng mọi object của class sẽ có một variable với cùng tên, type và giá trị ban đầu.
-
-Ví dụ, class `Monster` quy định các instance của nó sẽ có variable integer tên `Health`, bắt đầu với giá trị `100`. Tuy nhiên, cho đến khi ta instantiate class để tạo object, chưa có variable như vậy thực sự tồn tại.
-
-Khi ta tạo các object từ class — `Bonker` và `Basher` trong ví dụ sau — mỗi object nhận một bản sao riêng của variable `Health`.
-
-`Health` của từng object sau đó có thể được cập nhật độc lập mà không ảnh hưởng đến bất kỳ instance `Monster` nào khác:
-
-```cpp
-#include <iostream>
-
-class Monster {
-public:
-    int Health{100};
-};
-
-int main() {
-    Monster Bonker;
-    Monster Basher;
-    std::cout << "Bonker's Initial Health: " << Bonker.Health;
-    std::cout << "\nBasher's Initial Health: " << Basher.Health;
-
-    Bonker.Health = 50;
-    std::cout << "\nBonker's Health is now: " << Bonker.Health;
-    std::cout << "\nBasher's Health is still: " << Basher.Health;
-}
-```
-
-```text
-Bonker's Initial Health: 100
-Basher's Initial Health: 100
-Bonker's Health is now: 50
-Basher's Health is still: 100
-```
-
-## Class Function Prototype
-
-Trong chương trước về forward declaration, ta đã giới thiệu cách một function có thể được khai báo và định nghĩa ở những vị trí khác nhau trong code.
-
-Ta cũng có thể áp dụng kỹ thuật này cho class function khi cần. Bên trong định nghĩa class, ta cung cấp prototype cho class function:
-
-```cpp
-class Monster {
-public:
-    int Health{150};
+   Cú pháp này bị đảo ngược. Trong C++, tên đối tượng đứng trước, theo sau là toán tử truy cập thành viên `.` rồi đến tên thành viên.
